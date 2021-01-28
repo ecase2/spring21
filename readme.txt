@@ -1,5 +1,4 @@
-This repo contains all of the files related to my PhD coursework at UW-Madison
+This repo contains all of the files related to my coursework for the Spring 2021 semester at UW-Madison.
 
-Files are organized by semester, then by course, then by quarter 
+"a" refers to the first quarter of a semester, and "b" to the second. 
 
-Danny Edgel
