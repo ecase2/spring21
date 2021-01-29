@@ -1,0 +1,172 @@
+% $•$% !TeX root = macro_PS6_case.tex
+
+\documentclass[]{article}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{enumitem}
+\usepackage{bm}
+\usepackage{cases}
+\usepackage{changepage}\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{centernot}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{hyperref} % to restart section numbers for different parts
+\usepackage{physics} % to get partial derivatives 
+\usepackage{xcolor}
+\usepackage[a4paper, total={6.5in, 8.5in}]{geometry}
+\usepackage{listings} % to input code
+       \lstset{backgroundcolor = \color{white},
+               % frame = single,
+               %keywordstyle=\color{blue}
+               }
+
+%opening
+\title{Econ 710 Quarter 1: Problem set 1 }
+\author{Emily Case}
+
+% command for blank footnote 
+\newcommand\blfootnote[1]{%
+	\begingroup
+	\renewcommand\thefootnote{}\footnote{#1}%
+	\addtocounter{footnote}{-1}%
+	\endgroup
+}
+
+\newcount\colveccount
+\newcommand*\colvec[1]{
+	\global\colveccount#1
+	\begin{pmatrix}
+		\colvecnext
+	}
+	\def\colvecnext#1{
+		#1
+		\global\advance\colveccount-1
+		\ifnum\colveccount>0
+		\\
+		\expandafter\colvecnext
+		\else
+	\end{pmatrix}
+	\fi
+}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\co}[2]{c_{#1}^{#2}} % makes subscript and superscript easier for consumption
+\newcommand{\spa}{\text{ }}
+\newcommand{\lnl}{\ell_n} % log likelihood function
+\newcommand{\bxn}{\bar{X}_n}
+\newcommand{\lag}{\mathcal{L}}
+\newcommand{\sumin}{\sum\limits_{i=1}^n} % generic sumation 1 to n
+\newcommand{\sumti}{\sum\limits_{t=1}^\infty} % sum - infinite horizon
+\newcommand{\pin}{\Pi_{i=1}^n}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\argmax}{\text{arg}\max}
+\newcommand{\fix} [1] {\textbf{\textcolor{blue}{#1}}} % use this to more clearly note in problem set pdf where things need to be changed. 
+% end preamble
+
+\renewcommand*{\thesection}{\arabic{section}}
+
+\begin{document}
+	
+	\maketitle
+	
+	\blfootnote{I worked on this Problem set with Sarah Bass, Michael Nattinger, Alex von Hafften, and Danny Edgel.} 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Exercise 1}
+Suppose $(Y,X')'$ is a random vector with \[Y = X'\beta_0\cdot U\] where $\mathbb{E}[U|X] = 1,\;  \mathbb{E} [XX']$ is invertible, and $\mathbb{E} [Y^2 +||X||^2] < \infty $. Furthermore, suppose that $\{Y_i,X'_i\}_{i=1}^\infty$ is a random sample from the distribution of $(Y,X')'$, where $\frac{1}{n} \sumin X_iX'_i$ is invertible and let $\hat{\beta}$ be the OLS estimator:
+\[\hat{\beta} = \left(\frac{1}{n} \sumin X_iX'_i\right)^{-1} \frac{1}{n} \sumin X_iY_i\]
+
+\begin{enumerate}[label = (\roman*)]
+\item \textbf{Interpret the entries of $\beta_0$ in this model.} Here, when we take the derivative with respect to $X$, we will get a value/slope that is affected by the unobservables as well. Therefore $\beta_0$ is the value of the slope if it were unaffected by unobservable factors. \fix{there's probably a better way to say this}
+
+\item \textbf{Show that $Y= X'\beta_0+\tilde{U}$ where $\mathbb{E} [\tilde{U}|X] = 0$.} \\
+\begin{align*}
+Y & = X'\beta_0+\tilde{U} \\
+X'\beta_0\cdot U & = X'\beta_0+\tilde{U} \\
+\iff \E[\E[X'\beta_0\cdot U|X]] & = \E[\E[X'\beta_0+\tilde{U}|X]] \\
+\E[X'\beta_0] & = \E[ X"\beta_0 +\E[\tilde{U}|X]] \\
+\E[X'\beta_0] & =\E[X'\beta_0] 
+\end{align*}
+\fix{incorrect use of expectations i think}
+
+\item \textbf{Show that   $\E[X(Y - X'\beta)] = 0$ if and only if $\beta = \beta_0$ and use this to derive OLS as a method of moments estimator.} \\
+\\
+First, let $\beta = \beta_0$. Then 
+\begin{align*}
+\E[X(Y - X'\beta)] & = \E[X(Y - X'\beta_0)] \\
+& = \E[XY - XX'\beta_0] \\
+& = \E[XX'\beta_0\cdot U] - \E[XX'\beta_0]  \\
+& = \E[\E[XX'\beta_0\cdot U|X]] - \E[XX'\beta_0] \\
+& = \E[XX'\beta_0\E[U|X]] - \E[XX'\beta_0]\\
+& = \E[XX'\beta_0] - \E[XX'\beta_0] \\
+& = 0 
+\end{align*}
+Now suppose that $\E[X(Y - X'\beta)] = 0$. Then
+\begin{align*}
+0 & = \E[XY] - \E[XX'\beta] \\
+& =  \E[X(X'\beta_0 +\tilde{ U})] - \E[XX'\beta] \\
+\E[XX'\beta] & = \E[XX'\beta_0] + \E[X\tilde{U}] \\
+\E[XX'\beta] & = \E[XX'\beta_0] + \E[\E[X\tilde{U}|X]] \\
+\E[XX'\beta] & = \E[XX'\beta_0] \\
+\iff \beta & = \beta_0
+\end{align*}
+\fix{unsure about if the tilde-U assumption from ii carries over to this. unsure about moments estimator.} 
+
+
+\item \textbf{Show that the OLS estimator is conditionally unbiased.}\\
+\\
+
+
+\item \textbf{Show that the OLS estimator is consistent.}
+First note that 
+\begin{align*}
+\hat{\beta} & = \left(\frac{1}{n} \sumin X_iX'_i\right)^{-1} \frac{1}{n} \sumin X_iY_i\\
+& = \left(\frac{1}{n} \sumin X_iX'_i\right)^{-1} \left(\frac{1}{n} \sumin X_iX'_i\beta_0 + X_i\tilde{U}_i\right) \\
+& = \beta_0 + \left(\frac{1}{n} \sumin X_iX'_i\right)^{-1} \frac{1}{n} \sumin X_i\tilde{U}_i
+\end{align*}
+Which converges \fix{in distribution} to $\beta_0 + \E[X_iX'_i]^{-1} E[X_i\tilde{U}_i]$. Now, because $\mathbb{E} [\tilde{U}|X] = 0$,
+\begin{align*}
+\hat{\beta} 
+& \rightarrow^p \beta_0 + \E[X_iX'_i]^{-1} E[X_i\tilde{U}_i] \\
+& = \beta_0 
+\end{align*}
+
+\fix{definitely missing things on these last two parts}
+
+\end{enumerate}
+
+
+\section*{Exercise 2} 
+Let $X$ be a random variable with $\E[X^4]<\infty$ and $\E[X^2] > 0$. Furthermore, let $\{X_i\}^n_{i=1}$ be a random sample from the distribution of $X$.
+
+\begin{enumerate}[label = (\roman*)]
+
+\item \textbf{Which of the following four statistics can you use the law of large numbers and continuous mapping theorem to show convergence in probability as $n \rightarrow \infty$?}
+\begin{enumerate}[label = (\alph*)]
+
+\item  \[\frac{1}{n}\sumin X_i^3 \rightarrow^p \E[X_i^3]\]
+
+\item \[\max_{1\le i \le n} X_i\] \fix{cannot use CMT?}
+
+\item \[ \frac{\sumin X_i^3}{\sumin X_i^2}\]
+
+\item \[ 1 \bigg\{\frac{1}{n}\sumin X_i > 0\bigg\}\]
+
+\end{enumerate}
+
+\item \textbf{For which of the following three statistics can you use the central limit theorem and continuous mapping to show convergence in distribution as $n \rightarrow \infty$?}
+
+\begin{enumerate}[label = (\alph*)]
+\item 
+
+\item
+
+\item 
+
+\end{enumerate}
+
+
+\end{enumerate}
+\end{document}
