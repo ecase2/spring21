@@ -102,9 +102,28 @@ Also, the resource constraint becomes:
 \fix{this absolutely does not seem right}
 
 \section{The  scientists  forecast  an  earthquake $T$ periods  from  now  that  will  destroy $D >0$ units of capital.  Assuming that economy starts from a steady state with $D= 0$, draw a phase diagram that shows the optimal transition path.  Make two separate graphs showing the evolution of capital and consumption in time.}
-\fix{drawn on ipad but want to fix it so that shock puts us on the saddle path below new SS, so that they increase again. However the way I have it drawn maybe indicates that if you don't drop consumption low enough and save enough, you won't have great insurance for earthquake? ask about this...}
+\fix{drawn on ipad but want to fix it so that shock puts us on the saddle path below new SS, so that they increase again. However the way I have it drawn maybe indicates that if you don't drop consumption low enough and save enough, you won't have great insurance for earthquake? ask about this...} \\
+\\
+\fix{could also plot on matlab using question 4's values? if i have time} 
 
 \section{Assume that $U(C) = \frac{C^{1-\sigma}-1}{1-\sigma} $ and $F(K)= K^\alpha$ and the values of parameters are $\sigma= 1,\;\alpha= 1/3,\;\beta= 0.99^{1/12}$ (monthly model), $\delta = 0.01,\; T= 12,\;D= 1$.  Using a shooting algorithm,  solve  numerically  for  the  optimal  transition  path  and  plot  dynamics  of consumption and capital.}
+Updated Euler Equation:
+\begin{align*}
+\beta\frac{C_{t+1}^{-\sigma}}{C_t^{-\sigma}}  & = 1-\delta + \alpha K_t^{1-\alpha} \\
+\left(\frac{C_{t+1}}{C_t}\right)^{-\sigma}
+& = \frac{1}{\beta} \left( 1-\delta + \alpha K_t^{1-\alpha} \right) \\
+C_{t+1} & = C_t\beta^{1/\sigma} (1-\delta+\alpha K_t^{1-\alpha})^{-1/\sigma}
+\end{align*}
+Updated resource constraint:
+\begin{align*}
+K_t^\alpha = C_t + K_{t+1} -(1-\delta)K_t +D_t
+\end{align*}
+Notes:
+\begin{itemize}
+\item SS before shock: K = 170.57 and C = 3.84
+\end{itemize}
 
+\fix{\emph{General idea for code:}\\Use a consumption grid instead of a capital grid. initialize that and define the parameters. Find the steady state values, without the shock value first, because that steady state is where it will start at.\\\\Now use the shooting method to find the trajectory for this SS (no shock yet). Given a K, what would the optimal consumption be? do this for all K in order to find the saddle path trajectory. \\\\ in general very stuck here.... have half tried my own method half tried to learn Danny's...
+}
 
 \end{document}
