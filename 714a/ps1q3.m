@@ -1,4 +1,4 @@
-%% macro semester 2, quarter 1 %%
+%%% macro semester 2, quarter 1 %%%
 %%% problem set 1, question 3 %%%
 %%% Emily Case Jan 30 %%%
 %%% stuck :) 
@@ -32,28 +32,54 @@ c_ss = k_ss^alpha - delta*k_ss; % NOTE: assuming D=0 in the steady-state
 
 %% shooting method %% 
 
-k = 170;
+%%% make a grid of consumption as "candidates" to try for the initial jump
+%%% down from the steady state. jump in t=0, then from t=1 to T-1 follow
+%%% trajectories from original stuff. then shock at time T, then back to
+%%% trajectories for the original one. find the optimal c "jump" which
+%%% brings it back to the steady state. 
 
-cmin = 3;
-cmax = 4;
-cguess = (cmin+cmax)/2;
+%%% before making a grid, i want to try it with just one guess, and see if
+%%% I can accurately code that before going through everything. 
 
-cnext = cguess*beta^(1/sigma)*(1-delta+alpha*k^(1-alpha))^(-1/sigma)
-knext = k^alpha -cguess + (1-delta)*k
+c = 3.5; % temporary guess for initial jump
+k=k_ss;
+c_traj = ones(1,100);
+k_traj = ones(1,100);
+c_traj(1) = c;
+k_traj(1) = k_ss;
 
-% trying with very small grids:
-
-% initialize grid 
-kgrid = 160:1:200;
-cgrid = 1:.1:5;
-
-for i=1:length(kgrid)
-    % consumption
-    cgrid (1) = cguess
-    cnext = cgrid(i)*beta^(1/sigma)*(1-delta+alpha*kgrid(i)^(1-alpha))^(-1/sigma)
-    cgrid(i+1) = cnext
+% before the shock, after the initial jump:
+for t=1:T-1
+    cnext = c*beta^(-1/sigma)*(1-delta+alpha*k^(1-alpha))^(-1/sigma);
+    knext = k^alpha -c +(1-delta)*k; % no D yet
     
-    kgrid(i+1) = kgrid(i)^alpha -cgrid(i) + (1-delta)*kgrid(i)
+    c_traj(t+1) = cnext;
+    k_traj(t+1) = knext;
     
+    % update:
+    c = cnext;
+    k=knext;
 end
-%%% this doesn't work and i do not know why
+
+% for when the shock happens in T=12: 
+    %%% note that i have to use T+1 bc trajectory started at 1 and not at
+    %%% 0. 
+c_traj(T+1) = c_traj(T)*beta^(1/sigma)*(1-delta+alpha*k_traj(T)^(1-alpha))^(-1/sigma);
+k_traj(T+1) = k_traj(T)^alpha -c_traj(T) +(1-delta)*k_traj(T) -D;
+
+% for after the shock:
+c = c_traj(T+1);
+k = k_traj(T+1);
+for i=T+1:length(c_traj)
+    
+    cnext = c*beta^(1/sigma)*(1-delta+alpha*k^(1-alpha))^(-1/sigma);
+    knext = k^alpha -c +(1-delta)*k; % no D 
+    
+    c_traj(i+1) = cnext;
+    k_traj(i+1) = knext;
+    
+    % update:
+    c = cnext;
+    k=knext;
+end
+
