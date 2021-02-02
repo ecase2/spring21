@@ -79,18 +79,24 @@ Suppose $(Y,X')'$ is a random vector with \[Y = X'\beta_0\cdot U\] where $\mathb
 \[\hat{\beta} = \left(\frac{1}{n} \sumin X_iX'_i\right)^{-1} \frac{1}{n} \sumin X_iY_i\]
 
 \begin{enumerate}[label = (\roman*)]
+
+%%% (i) %%%
 \item \textbf{Interpret the entries of $\beta_0$ in this model.} Here, when we take the derivative with respect to $X$, we will get a value/slope that is affected by the unobservables as well. Therefore $\beta_0$ is the value of the slope if it were unaffected by unobservable factors. \fix{there's probably a better way to say this}
 
-\item \textbf{Show that $Y= X'\beta_0+\tilde{U}$ where $\mathbb{E} [\tilde{U}|X] = 0$.} \\
-\begin{align*}
-Y & = X'\beta_0+\tilde{U} \\
-X'\beta_0\cdot U & = X'\beta_0+\tilde{U} \\
-\iff \E[\E[X'\beta_0\cdot U|X]] & = \E[\E[X'\beta_0+\tilde{U}|X]] \\
-\E[X'\beta_0] & = \E[ X"\beta_0 +\E[\tilde{U}|X]] \\
-\E[X'\beta_0] & =\E[X'\beta_0] 
-\end{align*}
-\fix{incorrect use of expectations i think}
 
+%%% (ii) %%%  done 
+\item \textbf{Show that $Y= X'\beta_0+\tilde{U}$ where $\mathbb{E} [\tilde{U}|X] = 0$.} \\
+Notice that $\tilde{U} = Y - X'\beta_0 = X'\beta_0\cdot U - X'\beta_0 = X'\beta_0(U-1)$. So, when $\tilde{U} = X'\beta_0(U-1)$, the statement is true. Also, 
+
+\begin{align*}
+\E[\tilde{U} |X] 
+& = \E[X'\beta_0(U-1) |X] \\
+& = X'\beta_0\E[U|X] - X'\beta_0 \\
+& = X'\beta_0 - X'\beta_0 = 0 
+\end{align*}
+
+
+%%% (iii) %%%
 \item \textbf{Show that   $\E[X(Y - X'\beta)] = 0$ if and only if $\beta = \beta_0$ and use this to derive OLS as a method of moments estimator.} \\
 \\
 First, let $\beta = \beta_0$. Then 
@@ -112,13 +118,39 @@ Now suppose that $\E[X(Y - X'\beta)] = 0$. Then
 \E[XX'\beta] & = \E[XX'\beta_0] \\
 \iff \beta & = \beta_0
 \end{align*}
-\fix{unsure about if the tilde-U assumption from ii carries over to this. unsure about moments estimator.} 
+\fix{ unsure about moments estimator? } 
 
 
+%%% (iv) %%% done 
 \item \textbf{Show that the OLS estimator is conditionally unbiased.}\\
 \\
+We need to show that $\E[\hat{\beta}|X_1,...,X_n] = \beta_0$:
+\begin{align*}
+\E[\hat{\beta}|X_1,...,X_n] 
+& = \E\left[\left(\frac{1}{n} \sumin X_iX'_i\right)^{-1} \frac{1}{n} \sumin X_iY_i\bigg|X_1,...,X_n\right]
+\\
+& = \left(\frac{1}{n} \sumin X_iX'_i\right)^{-1} 
+    \frac{1}{n}\sumin X_i \E[Y_i|X_i]
+\\
+& = \left(\frac{1}{n} \sumin X_iX'_i\right)^{-1} 
+    \frac{1}{n}\sumin X_i 
+    \E[X'_i\beta_0 + \tilde{U}|X_i]
+\\
+& = \left(\frac{1}{n} \sumin X_iX'_i\right)^{-1} 
+    \frac{1}{n}\sumin X_i (
+    X'_i\beta_0 + \E[\tilde{U}|X_i])
+\\
+& = \left(\frac{1}{n} \sumin X_iX'_i\right)^{-1} 
+    \frac{1}{n}\sumin X_i X'_i\beta_0
+\\
+& = \left(\frac{1}{n} \sumin X_iX'_i\right)^{-1} 
+    \left(\frac{1}{n}\sumin X_i X'_i\right)\beta_0
+\\
+& = \beta_0
+\end{align*}
 
 
+%%% (v) %%% 
 \item \textbf{Show that the OLS estimator is consistent.}
 First note that 
 \begin{align*}
@@ -133,7 +165,7 @@ Which converges \fix{in distribution} to $\beta_0 + \E[X_iX'_i]^{-1} E[X_i\tilde
 & = \beta_0 
 \end{align*}
 
-\fix{definitely missing things on these last two parts}
+\fix{need to polish this}
 
 \end{enumerate}
 
