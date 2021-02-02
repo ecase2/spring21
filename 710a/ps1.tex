@@ -77,14 +77,14 @@
 
 
 
-\section*{Exercise 1}
+\section*{Exercise 1} % done
 Suppose $(Y,X')'$ is a random vector with \[Y = X'\beta_0\cdot U\] where $\mathbb{E}[U|X] = 1,\;  \mathbb{E} [XX']$ is invertible, and $\mathbb{E} [Y^2 +||X||^2] < \infty $. Furthermore, suppose that $\{Y_i,X'_i\}_{i=1}^\infty$ is a random sample from the distribution of $(Y,X')'$, where $\frac{1}{n} \sumin X_iX'_i$ is invertible and let $\hat{\beta}$ be the OLS estimator:
 \[\hat{\beta} = \left(\frac{1}{n} \sumin X_iX'_i\right)^{-1} \frac{1}{n} \sumin X_iY_i\]
 
 \begin{enumerate}[label = (\roman*)]
 
-%%% (i) %%%
-\item \textbf{Interpret the entries of $\beta_0$ in this model.} Here, when we take the derivative with respect to $X$, we will get a value/slope that is affected by the unobservables as well. Therefore $\beta_0$ is the value of the slope if it were unaffected by unobservable factors. \fix{there's probably a better way to say this}
+%%% (i) %%% done 
+\item \textbf{Interpret the entries of $\beta_0$ in this model.} Here, when we take the derivative with respect to $X$, we will get a value/slope that is affected by the unobservables as well. Therefore $\beta_0$ is the value of the slope if it were unaffected by unobservable factors. 
 
 
 %%% (ii) %%%  done 
@@ -99,10 +99,10 @@ Notice that $\tilde{U} = Y - X'\beta_0 = X'\beta_0\cdot U - X'\beta_0 = X'\beta_
 \end{align*}
 
 
-%%% (iii) %%%
+%%% (iii) %%% done 
 \item \textbf{Show that   $\E[X(Y - X'\beta)] = 0$ if and only if $\beta = \beta_0$ and use this to derive OLS as a method of moments estimator.} \\
 \\
-First, let $\beta = \beta_0$. Then 
+First, let $\beta = \beta_0$. Then\footnote{Note that $\E[XX']$ is invertible} 
 \begin{align*}
 \E[X(Y - X'\beta)] & = \E[X(Y - X'\beta_0)] \\
 & = \E[XY - XX'\beta_0] \\
@@ -121,7 +121,16 @@ Now suppose that $\E[X(Y - X'\beta)] = 0$. Then
 \E[XX'\beta] & = \E[XX'\beta_0] \\
 \iff \beta & = \beta_0
 \end{align*}
-\fix{ unsure about moments estimator? } 
+To construct the estimator:
+\begin{align*}
+0 & =\frac{1}{n}\sumin X_i(Y_i-X'_i\hat{\beta})
+\\
+& = \frac{1}{n}\sumin X_iY_i -\frac{1}{n}\sumin X_iX'_i\hat{\beta}
+\\
+& = \left(\frac{1}{n}\sumin X_iX'_i\right)^{-1} \frac{1}{n}\sumin X_iY_i -\hat{\beta}
+\\
+\hat{\beta} & = \left(\frac{1}{n}\sumin X_iX'_i\right)^{-1} \frac{1}{n}\sumin X_iY_i
+\end{align*} 
 
 
 %%% (iv) %%% done 
@@ -153,7 +162,7 @@ We need to show that $\E[\hat{\beta}|X_1,...,X_n] = \beta_0$:
 \end{align*}
 
 
-%%% (v) %%% 
+%%% (v) %%% done
 \item \textbf{Show that the OLS estimator is consistent.}
 By the law of large numbers, $ \frac{1}{n} \sumin X_iX'_i \rightarrow^p \E[XX']$ and $\frac{1}{n} \sumin X_iY_i \rightarrow^p \E[XY]$. We know that $\E[XX']$ is invertible. Now, by the continuous mapping theorem, we get that 
 \begin{align*}
@@ -184,25 +193,27 @@ Let $X$ be a random variable with $\E[X^4]<\infty$ and $\E[X^2] > 0$. Furthermor
 
 \begin{enumerate}[label = (\alph*)]
 
-%%% (a) %%%
+%%% (a) %%% done
 \item  $\frac{1}{n}\sumin X_i^3$ \\
-Since the fourth moment is finite, the third moment is also finite. Also, $\E[-X^3] <\infty$, so $\E[|X^3|] <\infty$. Now we can apply the law of large numbers:
+Since the fourth moment is finite, the third moment is also finite, so $\E[|X^3|] <\infty$. Now we can apply the law of large numbers:
 \[\frac{1}{n}\sumin X_i^3 \rightarrow^p \E[X_i^3] \]
 
-%%% (b) %%%
+%%% (b) %%% done
 \item $\max_{1\le i \le n} X_i$ \\
-We cannot use CMT here. 
+We cannot use CMT here, because some distributions don't even have a maximum (i.e. Normal distributions). It also doesn't have any kind of sample average in it. 
 
-%%% (c) %%%
+%%% (c) %%% done
 \item $ \frac{\sumin X_i^3}{\sumin X_i^2}$ \\
 LLN\footnote{Using similar logic to part a.} gives us that $\sumin X_i^3 \rightarrow^p \E[X^3]$ and $ \sumin X_i^2 \rightarrow^p$. Then using CMT, 
 \[\frac{\sumin X_i^3}{\sumin X_i^2} \rightarrow^p \frac{\E[X^3]}{\E[X^2]}\]
 
-%%% (d) %%%
+%%% (d) %%% done
 \item $ 1 \bigg\{\frac{1}{n}\sumin X_i > 0\bigg\}$ \\
-We must have that $\E[|X|] <\infty$, so $\frac{1}{n}\sumin X_i \rightarrow^p \E[X]$. So, by CMT, if $\E[X]>0$ it converges in probability to 1. If $\E[X]<0$ it converges in probability to 0. The indicator function is not continuous when $\E[X]=0$, so we can't use CMT in that case. 
+%We must have that $\E[|X|] <\infty$, so $\frac{1}{n}\sumin X_i \rightarrow^p \E[X]$. So, by CMT, if $\E[X]>0$ it converges in probability to 1. If $\E[X]<0$ it converges in probability to 0. The indicator function is not continuous when $\E[X]=0$, so we can't use CMT in that case. \fix{has to be continuous on entire domain} 
+Notice that if $\E[X] = 0$, we have a discontinuity in the function. We don't know for sure what $\E[X]$ is, so we can't use CMT. 
 \\\\
-\fix{I want to talk through this one and maybe also just the general assumptions for these theorems and why they are necessary}
+
+
 
 \end{enumerate}
 
@@ -213,29 +224,59 @@ We must have that $\E[|X|] <\infty$, so $\frac{1}{n}\sumin X_i \rightarrow^p \E[
 \begin{enumerate}[label = (\alph*)]
 
 %%% (a) %%%
-\item 
+\item $W_n := \frac{1}{\sqrt{n}}\sumin (X_i^2-\E[X_1^2])$ \\
+Since we have $\E[X_i^4]<\infty$, $Var(X_1^2)<\infty$ and we can use Lindeberg-Levy, it will converge in distribution to $N(0,Var(X_1^2)) $.
 
 %%% (b) %%%
-\item
+\item $W_n^2$\\
+Since $f(x) = x^2$ is continuous everywhere, 
+\[W_n^2 \rightarrow^d N(0,Var(X_i^2)^2)\]
 
 %%% (c) %%%
-\item 
+\item $\frac{1}{\sqrt{n}} \sumin (X_i^2 -\overline{X_n^2})$ simplifies to 
+\[\frac{1}{\sqrt{n}} \sumin X_i^2 - \frac{1}{\sqrt{n}} \sum_{j=1}^n X_j^2 = 0 \]
+so we cannot use CLT. 
 
 \end{enumerate}
 
 
-%%% (iii) %%% 
+%%% (iii) %%% done
 \item \textbf{Show that $\max_{1\le i \le n} X_i \rightarrow^p 1$ if $X \sim uniform(0,1)$}
+\begin{align*}
+Pr(\max_{1\le i \le n} |X_i -1|\le \epsilon) 
+& = Pr(\max_{1\le i \le n} 1-X_i \le \epsilon)
+\\
+& = Pr(\max_{1\le i \le n} X_i \ge 1-\epsilon)
+\\
+& = 1-Pr(\max_{1\le i \le n} X_i < 1-\epsilon)
+\\
+& = 1-Pr(X_i < 1-\epsilon \forall X_i)
+\\
+& = 1-\Pi_{i=1}^n Pr(X_i < 1-\epsilon)
+\\
+& = 1-\Pi_{i=1}^n (1-\epsilon)
+\\
+& = 1- (1-\epsilon)^n 
+& \rightarrow 1
+\end{align*}
 
 
-%%% (iv) %%% 
+%%% (iv) %%% done 
 \item \textbf{Show that Pr$(\max_{1\le i \le n} X_i >M \rightarrow 1$ for any $M\ge 0$ if $X \sim exponential(1)$}
+\begin{align*}
+Pr(\max_{1\le i \le n} X_i >M) 
+& = 1- Pr(\max_{1\le i \le n} X_i \le M) 
+\\
+& = 1- Pr(X_i \le M \forall X_i)\\
+& = 1 - (1-e^{-M})^n
+& \rightarrow 1
+\end{align*}
 
 \end{enumerate}
 
 
 
-\section*{Exercise 3}
+\section*{Exercise 3} % done more weakly 
 Suppose that $\{X_i\}_{i=1}^n $ is an i.i.d. sequence of N(0,1) random variables. Let W be independent of $\{X_i\}_{i=1}^n $ with Pr$(W=1)= Pr(W=-1)=1/2$. Let $Y_i = X_iW$. 
 
 \begin{enumerate}[label = (\roman*)]
@@ -250,6 +291,8 @@ First, note that $\E[X_i^2] = Var(X_i) = 1 < \infty$. This meets the conditions 
 \item Show that $\frac{1}{\sqrt{n}} \sumin Y_i \rightarrow^d N(0,1)$ as $n \rightarrow \infty$.
 There are two cases, either $Y_i = X_i$ (W=1) in which the answer is the same as (i), or $Y_i = -X_i$ (W=-1). Normal distributions are symmetric, and so $Y_i = -X_i$ will have the same distribution. In either case, 
 \[\frac{1}{\sqrt{n}} \sumin Y_i \rightarrow^d N(0,1)\]
+
+%\fix{jim does calculate expectation and then exp(y sqrd) to do distribution, maybe a little easier. independence of X and W important. from there you set up. then can use lindeberg levy}
 
 %%% (iii) %%% done
 \item Show that $Cov(X_i,Y_i) =0$.
@@ -269,12 +312,13 @@ Cov(X_i,Y_i) & = \E[(X_i - \E[X_i])(Y_i-\E[Y_i])]
 \end{align*}
 
 %%% (iv) %%%
-\item Does $V := \frac{1}{\sqrt{n}} \sumin (X_i,Y_i)'\rightarrow^d N(0,I_2)$ as $n \rightarrow \infty$?
-\fix{come back to this}
+\item Does $V := \frac{1}{\sqrt{n}} \sumin (X_i,Y_i)'\rightarrow^d N(0,I_2)$ as $n \rightarrow \infty$? W makes V not continuous, which is necessary, so it does not converge to $N(0,I_2)$.
+
 
 %%% (v) %%%
 \item How does this exercise relate to the Cramer-Wold device introduced in lecture 2?
-\fix{having trouble drawing connection to the definition in the notes}
+We showed individual convergence in parts (i) and (ii), but the joint limit distribution was not possible.
+% weak answer
 
 \end{enumerate}
  
