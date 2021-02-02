@@ -74,6 +74,9 @@
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
 \section*{Exercise 1}
 Suppose $(Y,X')'$ is a random vector with \[Y = X'\beta_0\cdot U\] where $\mathbb{E}[U|X] = 1,\;  \mathbb{E} [XX']$ is invertible, and $\mathbb{E} [Y^2 +||X||^2] < \infty $. Furthermore, suppose that $\{Y_i,X'_i\}_{i=1}^\infty$ is a random sample from the distribution of $(Y,X')'$, where $\frac{1}{n} \sumin X_iX'_i$ is invertible and let $\hat{\beta}$ be the OLS estimator:
 \[\hat{\beta} = \left(\frac{1}{n} \sumin X_iX'_i\right)^{-1} \frac{1}{n} \sumin X_iY_i\]
@@ -152,22 +155,22 @@ We need to show that $\E[\hat{\beta}|X_1,...,X_n] = \beta_0$:
 
 %%% (v) %%% 
 \item \textbf{Show that the OLS estimator is consistent.}
-First note that 
+By the law of large numbers, $ \frac{1}{n} \sumin X_iX'_i \rightarrow^p \E[XX']$ and $\frac{1}{n} \sumin X_iY_i \rightarrow^p \E[XY]$. We know that $\E[XX']$ is invertible. Now, by the continuous mapping theorem, we get that 
 \begin{align*}
-\hat{\beta} & = \left(\frac{1}{n} \sumin X_iX'_i\right)^{-1} \frac{1}{n} \sumin X_iY_i\\
-& = \left(\frac{1}{n} \sumin X_iX'_i\right)^{-1} \left(\frac{1}{n} \sumin X_iX'_i\beta_0 + X_i\tilde{U}_i\right) \\
-& = \beta_0 + \left(\frac{1}{n} \sumin X_iX'_i\right)^{-1} \frac{1}{n} \sumin X_i\tilde{U}_i
-\end{align*}
-Which converges \fix{in distribution} to $\beta_0 + \E[X_iX'_i]^{-1} E[X_i\tilde{U}_i]$. Now, because $\mathbb{E} [\tilde{U}|X] = 0$,
-\begin{align*}
-\hat{\beta} 
-& \rightarrow^p \beta_0 + \E[X_iX'_i]^{-1} E[X_i\tilde{U}_i] \\
-& = \beta_0 
+\hat{\beta} & \rightarrow^p \E[XX']^{-1} \E[XY]
+\\
+& = \E[XX']^{-1} \E[X(X'\beta_0 +\tilde{U})]
+\\
+& = \E[XX']^{-1} \E[XX'\beta_0 +X\tilde{U})]
+\\
+& = \beta_0 + \E[X\tilde{U})]
+\\
+& = \beta_0
 \end{align*}
 
-\fix{need to polish this}
 
 \end{enumerate}
+
 
 
 \section*{Exercise 2} 
@@ -175,32 +178,104 @@ Let $X$ be a random variable with $\E[X^4]<\infty$ and $\E[X^2] > 0$. Furthermor
 
 \begin{enumerate}[label = (\roman*)]
 
+
+%%% (i) %%% done 
 \item \textbf{Which of the following four statistics can you use the law of large numbers and continuous mapping theorem to show convergence in probability as $n \rightarrow \infty$?}
+
 \begin{enumerate}[label = (\alph*)]
 
-\item  \[\frac{1}{n}\sumin X_i^3 \rightarrow^p \E[X_i^3]\]
+%%% (a) %%%
+\item  $\frac{1}{n}\sumin X_i^3$ \\
+Since the fourth moment is finite, the third moment is also finite. Also, $\E[-X^3] <\infty$, so $\E[|X^3|] <\infty$. Now we can apply the law of large numbers:
+\[\frac{1}{n}\sumin X_i^3 \rightarrow^p \E[X_i^3] \]
 
-\item \[\max_{1\le i \le n} X_i\] \fix{cannot use CMT?}
+%%% (b) %%%
+\item $\max_{1\le i \le n} X_i$ \\
+We cannot use CMT here. 
 
-\item \[ \frac{\sumin X_i^3}{\sumin X_i^2}\]
+%%% (c) %%%
+\item $ \frac{\sumin X_i^3}{\sumin X_i^2}$ \\
+LLN\footnote{Using similar logic to part a.} gives us that $\sumin X_i^3 \rightarrow^p \E[X^3]$ and $ \sumin X_i^2 \rightarrow^p$. Then using CMT, 
+\[\frac{\sumin X_i^3}{\sumin X_i^2} \rightarrow^p \frac{\E[X^3]}{\E[X^2]}\]
 
-\item \[ 1 \bigg\{\frac{1}{n}\sumin X_i > 0\bigg\}\]
+%%% (d) %%%
+\item $ 1 \bigg\{\frac{1}{n}\sumin X_i > 0\bigg\}$ \\
+We must have that $\E[|X|] <\infty$, so $\frac{1}{n}\sumin X_i \rightarrow^p \E[X]$. So, by CMT, if $\E[X]>0$ it converges in probability to 1. If $\E[X]<0$ it converges in probability to 0. The indicator function is not continuous when $\E[X]=0$, so we can't use CMT in that case. 
+\\\\
+\fix{I want to talk through this one and maybe also just the general assumptions for these theorems and why they are necessary}
 
 \end{enumerate}
 
+
+%%% (ii) %%%
 \item \textbf{For which of the following three statistics can you use the central limit theorem and continuous mapping to show convergence in distribution as $n \rightarrow \infty$?}
 
 \begin{enumerate}[label = (\alph*)]
+
+%%% (a) %%%
 \item 
 
+%%% (b) %%%
 \item
 
+%%% (c) %%%
 \item 
 
 \end{enumerate}
 
 
+%%% (iii) %%% 
+\item \textbf{Show that $\max_{1\le i \le n} X_i \rightarrow^p 1$ if $X \sim uniform(0,1)$}
+
+
+%%% (iv) %%% 
+\item \textbf{Show that Pr$(\max_{1\le i \le n} X_i >M \rightarrow 1$ for any $M\ge 0$ if $X \sim exponential(1)$}
+
 \end{enumerate}
 
+
+
 \section*{Exercise 3}
+Suppose that $\{X_i\}_{i=1}^n $ is an i.i.d. sequence of N(0,1) random variables. Let W be independent of $\{X_i\}_{i=1}^n $ with Pr$(W=1)= Pr(W=-1)=1/2$. Let $Y_i = X_iW$. 
+
+\begin{enumerate}[label = (\roman*)]
+
+%%% (i) %%%  done
+\item Show that $\frac{1}{\sqrt{n}} \sumin X_i \rightarrow^d N(0,1)$ as $n \rightarrow \infty$.
+First, note that $\E[X_i^2] = Var(X_i) = 1 < \infty$. This meets the conditions for Lindeberg-Levy:
+\[\frac{1}{\sqrt{n}} \sumin X_i = \frac{1}{\sqrt{n}}\sumin(X_i - \E[X_1]) 
+\rightarrow^d N(0,Var(X_1)) = N(0,1)\]
+
+%%% (ii) %%%  done
+\item Show that $\frac{1}{\sqrt{n}} \sumin Y_i \rightarrow^d N(0,1)$ as $n \rightarrow \infty$.
+There are two cases, either $Y_i = X_i$ (W=1) in which the answer is the same as (i), or $Y_i = -X_i$ (W=-1). Normal distributions are symmetric, and so $Y_i = -X_i$ will have the same distribution. In either case, 
+\[\frac{1}{\sqrt{n}} \sumin Y_i \rightarrow^d N(0,1)\]
+
+%%% (iii) %%% done
+\item Show that $Cov(X_i,Y_i) =0$.
+Note that $\E[X_iW] = 0$.
+\begin{align*}
+Cov(X_i,Y_i) & = \E[(X_i - \E[X_i])(Y_i-\E[Y_i])]
+\\
+& = \E[(X_i - \E[X_i])(X_iW-\E[X_iW])]
+\\
+& = \E[(X_i - \E[X_i])(X_iW)]
+\\
+& = \E[ X_i^2W]
+\\ 
+& = \E[X_i^2]\E[W] 
+\\
+& = 1*0 = 0 
+\end{align*}
+
+%%% (iv) %%%
+\item Does $V := \frac{1}{\sqrt{n}} \sumin (X_i,Y_i)'\rightarrow^d N(0,I_2)$ as $n \rightarrow \infty$?
+\fix{come back to this}
+
+%%% (v) %%%
+\item How does this exercise relate to the Cramer-Wold device introduced in lecture 2?
+\fix{having trouble drawing connection to the definition in the notes}
+
+\end{enumerate}
+ 
 \end{document}
