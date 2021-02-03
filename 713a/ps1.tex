@@ -267,7 +267,22 @@ This is a female-optimal stable matching that took two rounds.
 
 \section{Assume types are drawn uniformly from $[0,1]$.  When a type $x $ matches with a type $y$, type $x$ gets payoff $y+axy$, and the payoff to $y$ matching with $ x$ is symmetrically $x+axy$.  Assume$-1< a <0$.}
 
+\begin{enumerate}[label = (\alph*)]
 
+%%% (a) %%% 
+\item If there are nontransferable payoffs, then:
+\begin{itemize}
+    \item Everyone who is type x, regardless of their ranking, prefers the type y who draws value 1 ($1_y$) in order to maximize their payoffs. 
+    \item Symmetrically, all of type y will prefer the x with value 1 ($1_x$).  
+\end{itemize}
+Because of symmetry the matching will be the same no matter what, but consider that x makes the proposals. All x propose to $1_y$, who will accept $1_x$. Then remaining x all propose to the second highest y, who accepts the second highest x, and so on. We get matchings $(1_x,1_y),\; ... ,\; (0_x,0_y)$. In other words, x and y agents of the same ranking in the uniform distribution are matched. \fix{edit for clarity?}
+
+
+%%% (b) %%% 
+\item
+
+
+\end{enumerate}
 
 
 \section{}
