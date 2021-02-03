@@ -1,0 +1,275 @@
+% $•$% !TeX root = macro_PS6_case.tex
+
+\documentclass[]{article}
+    \setlength{\parindent}{0em}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{enumitem}
+\usepackage{bm}
+\usepackage{cases}
+\usepackage{changepage}\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{centernot}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{hyperref} % to restart section numbers for different parts
+\usepackage{physics} % to get partial derivatives 
+\usepackage{xcolor}
+\usepackage[a4paper, total={6.5in, 8.5in}]{geometry}
+\usepackage{listings} % to input code
+       \lstset{backgroundcolor = \color{white},
+               % frame = single,
+               %keywordstyle=\color{blue}
+               }
+
+%opening
+\title{Econ 713 Quarter 1: Problem set 1 }
+\author{Emily Case}
+
+% command for blank footnote 
+\newcommand\blfootnote[1]{%
+	\begingroup
+	\renewcommand\thefootnote{}\footnote{#1}%
+	\addtocounter{footnote}{-1}%
+	\endgroup
+}
+
+\newcount\colveccount
+\newcommand*\colvec[1]{
+	\global\colveccount#1
+	\begin{pmatrix}
+		\colvecnext
+	}
+	\def\colvecnext#1{
+		#1
+		\global\advance\colveccount-1
+		\ifnum\colveccount>0
+		\\
+		\expandafter\colvecnext
+		\else
+	\end{pmatrix}
+	\fi
+}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\co}[2]{c_{#1}^{#2}} % makes subscript and superscript easier for consumption
+\newcommand{\spa}{\text{ }}
+\newcommand{\lnl}{\ell_n} % log likelihood function
+\newcommand{\bxn}{\bar{X}_n}
+\newcommand{\lag}{\mathcal{L}}
+\newcommand{\sumin}{\sum\limits_{i=1}^n} % generic sumation 1 to n
+\newcommand{\sumti}{\sum\limits_{t=1}^\infty} % sum - infinite horizon
+\newcommand{\pin}{\Pi_{i=1}^n}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\argmax}{\text{arg}\max}
+\newcommand{\fix} [1] {\textbf{\textcolor{blue}{#1}}} % use this to more clearly note in problem set pdf where things need to be changed. 
+% end preamble
+
+\renewcommand*{\thesection}{\arabic{section}}
+
+\begin{document}
+	
+	\maketitle
+	
+	\blfootnote{I worked on this Problem set with Sarah Bass, Michael Nattinger, Alex von Hafften, and Danny Edgel.} 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+\section{Consider the following non-transferable utility matching problem of three men and three women.  Unmatched payoff is zero for both men and women. Does the Gale-Shapley algorithm yield the same outcome if we let women propose to men instead of men propose to women?}
+
+\begin{center}
+\begin{tabular}{|c|c|c|c|}
+\hline 
+ & W1 & W2 & W3 \\ 
+\hline 
+M1 & 10,5 & 8,3 & 6,12 \\ 
+\hline 
+M2 & 4,10 & 5,2 & 3,20 \\  
+\hline 
+M3 & 6,15 & 7,1 & 8,16 \\ 
+\hline 
+\end{tabular}
+\end{center}
+
+
+\textbf{Men would make the following proposals:} 
+\begin{center}
+\begin{tabular}{|c|c|c|c|}
+\hline 
+ & W1 & W2 & W3 \\ 
+\hline 
+M1 & \textbf{10,5} & 8,3 & 6,12 \\ 
+\hline 
+M2 & 4,10 & \textbf{5,2} & 3,20 \\ 
+\hline 
+M3 & 6,15 & 7,1 & \textbf{8,16} \\ 
+\hline 
+\end{tabular}
+\end{center}
+Since every woman is proposed to, they will all accept (because they are better off than being single), and the stable matchings are the bolded ones. It takes one round, and is male-optimal/female-pessimal. 
+\\\\
+
+\textbf{Women would make the following proposals:}
+\begin{center}
+\begin{tabular}{|c|c|c|c|}
+\hline 
+ & W1 & W2 & W3 \\ 
+\hline 
+M1 & 10,5 & \textbf{8,3} & 6,12 \\ 
+\hline 
+M2 & 4,10 & 5,2 & \textbf{3,20} \\  
+\hline 
+M3 & \textbf{6,15} & 7,1 & 8,16 \\ 
+\hline 
+\end{tabular}
+\end{center}
+Again, each man has one proposal and so all will accept. Again it takes one round, but it is female-optimal/male-pessimal. 
+\\
+\\
+\textbf{What happens if now we switch utilities for women 1 to be (10,5,15) and for women3 to be (12,16,20)?}
+ \begin{center}
+\begin{tabular}{|c|c|c|c|}
+\hline 
+ & W1 & W2 & W3 \\ 
+\hline 
+M1 & 10,10 & \textbf{8,3} & 6,12 \\ 
+\hline 
+M2 & 4,5 & 5,2 & 3,16 \\  
+\hline 
+M3 & \textbf{6,15} & 7,1 & \textbf{8,20} \\ 
+\hline 
+\end{tabular}
+\end{center}
+Men's proposals stay the same. Women's proposals in the first round are again bolded, and M3 has two women to choose from. He selects his preferred W3, leaving W1 to make her second proposal. Now, assuming all agents have perfect information, M1 knows that he is W1's second choice, so he will \textit{reject} his first proposal. \\
+\\
+For the second and final round, matched couples are in red, and new proposals are in bold. W1 proposes to her second best, as M1 hoped. W2 also has to make a proposal to M2\footnote{Her second preferred option is already taken!}:
+\begin{center}
+\begin{tabular}{|c|c|c|c|}
+\hline 
+ & W1 & W2 & W3 \\ 
+\hline 
+M1 & \textbf{10,10} & 8,3 & 6,12 \\ 
+\hline 
+M2 & 4,5 & \textbf{5,2} & 3,16 \\  
+\hline 
+M3 & 6,15 & 7,1 & \textbf{\textcolor{red}{8,20}} \\ 
+\hline 
+\end{tabular}
+\end{center}
+Note that now we have the same stable matching whether men or women propose, so it is unique. 
+
+
+
+\section{(Econ 711 - Fall 2010 Q.1) Consider a matching market with two distinct “sides,” metaphorically  called  “men”  and  “women,”  but  perhaps  better  thought  of  as  a professional  partnership, likes specialist  neuro-surgeons  and  interns (one-on-one matches). } All benefits of the match are as given below:
+
+\begin{center}
+\begin{tabular}{|c|c|c|c|}
+\hline 
+      & M1 & M2 & M3 \\ 
+\hline 
+W1 & 1,2 & 4,3 & 3,2 \\ 
+\hline 
+W2 & 1,3 & 2,4 & 3,2 \\ 
+\hline 
+W3 & 2,2 & 2,2 & 4,4 \\ 
+\hline 
+\end{tabular} 
+\end{center}
+
+Unmatched individuals earn nothing. 
+
+\begin{enumerate}[label = (\alph*)]
+
+%%% (a) %%% 
+\item \emph{Assume that wages are not negotiable, and thus no side transfers are possible. Find all stable matchings. Carefully justify your answer.} \\
+\\
+
+\textbf{Men would make the following bolded first proposals:}
+\begin{center}
+\begin{tabular}{|c|c|c|c|}
+\hline 
+  & M1 & M2 & M3 \\ 
+\hline 
+W1 & 1,2 & 4,3 & 3,2 \\ 
+\hline 
+W2 & \textbf{1,3} & \textbf{2,4} & 3,2 \\ 
+\hline 
+W3 & 2,2 & 2,2 & \textbf{4,4} \\ 
+\hline 
+\end{tabular} 
+$\longrightarrow$
+\begin{tabular}{|c|c|c|c|}
+\hline 
+  & M1 & M2 & M3 \\ 
+\hline 
+W1 & \textbf{\textcolor{red}{1,2}} & 4,3 & 3,2 \\ 
+\hline 
+W2 & 1,3 & \textbf{\textcolor{red}{2,4}} & 3,2 \\ 
+\hline 
+W3 & 2,2 & 2,2 & \textbf{\textcolor{red}{4,4}} \\ 
+\hline 
+\end{tabular} 
+\end{center}
+
+In this round, W3's favorite man has proposed to her, so she absolutely accepts. W2 has two proposals, and selects M2. W1 is lonely in the first round. \\
+\\
+In the second and final round (shown on the above right), M1 needs to make a new proposal, and his only option is W1, who will accept. We get one stable matching, which is male-optimal: \\
+\\
+
+\textbf{Women would make the following bolded first proposals:}
+
+\begin{center}
+\begin{tabular}{|c|c|c|c|}
+\hline 
+               & M1 & M2 & M3 \\ 
+\hline 
+W1 & 1,2 & \textbf{4,3} & 3,2 \\ 
+\hline 
+W2 & 1,3 & 2,4 & \textbf{3,2} \\ 
+\hline 
+W3 & 2,2 & 2,2 & \textbf{4,4} \\ 
+\hline 
+\end{tabular} 
+$\longrightarrow$
+\begin{tabular}{|c|c|c|c|}
+\hline 
+               & M1 & M2 & M3 \\ 
+\hline 
+W1 & 1,2 & \textbf{\textcolor{red}{4,3}} & 3,2 \\ 
+\hline 
+W2 & \textbf{\textcolor{red}{1,3}} & 2,4 & 3,2 \\ 
+\hline 
+W3 & 2,2 & 2,2 & \textbf{\textcolor{red}{4,4}} \\ 
+\hline 
+\end{tabular} 
+\end{center}
+M3 selects W3 of his options, leaving W2 single until next round. M2 accepts his offer because it's his best option in general. Final matchings are in red on the rightside table.\\
+\\
+
+This is a female-optimal stable matching that took two rounds. 
+\\\\
+\fix{Not sure about a non DAA stable matching}
+
+
+%%% (b) %%% 
+\item \textit{From now on,  assume side transfers are possible.  Let payoffs be the sum of transfers.  Find the efficient matching.}
+
+
+%%% (c) %%% 
+\item \textit{Find with proof the minimum wage for the type 2 man.}\footnote{Hint: Let the wages of women be $w_i$ and wages of men be $v_i$.}
+
+\end{enumerate}
+
+
+
+\section{Assume types are drawn uniformly from $[0,1]$.  When a type $x $ matches with a type $y$, type $x$ gets payoff $y+axy$, and the payoff to $y$ matching with $ x$ is symmetrically $x+axy$.  Assume$-1< a <0$.}
+
+
+
+
+\section{}
+
+\end{document}
