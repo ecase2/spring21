@@ -21,6 +21,8 @@
                %keywordstyle=\color{blue}
                }
 
+\setlength{\parindent}{0em} % no automatic indents
+
 %opening
 \title{Econ 714 Quarter 1: Problem set 2 }
 \author{Emily Case}
@@ -78,10 +80,8 @@
 \section*{Problem 1}
 Consider a growth model with preferences $\sumti \beta^t\log C_t$, production function $Y_t=AK_t^\alpha$,the capital law of motion $K_{t+1}=K_{t}^{1-\delta}I_t^\delta$, and the resource constraint $Y_t=C_t+I_t$.
 
-\begin{enumerate}
-
 %%% num. 1 %%%
-\item \textbf{Write down the social planner’s problem and derive the Euler equation. Provide the intuition to this optimality condition using the perturbation argument.} 
+\subsection*{(1) Write down the social planner’s problem and derive the Euler equation. Provide the intuition to this optimality condition using the perturbation argument.} 
 
 % social planner problem %
 \begin{align*}
@@ -117,8 +117,8 @@ Combining, and replacing the $I_t$'s, we get the Euler Equation:
 \left[ k_{t+1}^{-\delta}(1-\delta)I_{t+1}^\delta + 
 \delta K_{t+1}^{1-\delta}I_t^{\delta-1}\alpha AK_{t+1}^{\alpha-1}\right] 
 \\
-\frac{1}{C_tK_t^{1-\delta}I_t^{\delta_1}}
-& = \frac{\beta K_{t+1}^{-1}}{C_{t+1}}
+\frac{1}{C_tK_t^{1-\delta}I_t^{\delta-1}}
+& = \frac{\beta}{C_{t+1}K_{t+1}}
 \left[ (1-\delta)I_{t+1}+\delta\alpha A K_{t+1}^\alpha \right]
 \numberthis \label{euler}
 \end{align*}
@@ -128,8 +128,8 @@ Combining, and replacing the $I_t$'s, we get the Euler Equation:
 
 
 %%% num. 2 %%%  
-\item \textbf{Derive the system of equations that pins down the steady state of the model.}\\
-\\
+\subsection*{(2) Derive the system of equations that pins down the steady state of the model.}
+
 Using the Euler Equation \eqref{euler} and the capital law of motion, 
 \begin{equation} \label{LOM}
 K_{t+1}=K_{t}^{1-\delta}I_t^\delta 
@@ -147,29 +147,46 @@ which define the steady state. Notice also that \eqref{LOMSS} implies $\bar{K} =
 
 
 %%% num. 3 %%%
-\item \textbf{Log-linearize the equilibrium conditions around the steady state.} 
+\subsection*{(3) Log-linearize the equilibrium conditions around the steady state.} 
+First log-linearize $I_t = AK_t^\alpha -C_t$:
+\[i_t = \frac{\alpha A\bar{K}^\alpha}{\bar{I}}k_t -\frac{\bar{C}}{\bar{I}}c_t
+= \alpha A\bar{K}^{\alpha-1}k_t -\frac{\bar{C}}{\bar{I}}c_t\]
+
+Now I log-linearize equation \eqref{LOM}:
+\begin{align*}
+\bar{K}(1+k_{t+1}) & = \bar{K}^{1-\delta}[1+(1-\delta)k_t]\bar{I}^\delta (1+\delta i_t)
+\\
+k_{t+1} & = (1-\delta)k_t+\delta i_t 
+\\
+& = (1-\delta)k_t+\delta \left(\alpha A\bar{K}^{\alpha-1}k_t -\frac{\bar{C}}{\bar{I}}c_t\right)
+\\
+& = k_t\left(1-\delta +\delta\alpha A\bar{K}^{\alpha-1}\right) -\delta\frac{\bar{C}}{\bar{I}}c_t
+\end{align*} 
+\fix{check this against someone's}
+
+And finally, equation \eqref{euler}:
 
 
 %%% num. 4 %%%
-\item \textbf{Write down a dynamic system with one state variable and one control variable. Usethe Blanchard-Kahn method to solve this system for a saddle path.}
+\subsection*{(4) Write down a dynamic system with one state variable and one control variable. Use the Blanchard-Kahn method to solve this system for a saddle path.}
 
 
 %%% num. 5 %%%
-\item \textbf{Show that the obtained solution is not just locally accurate, but is in fact the exact solution to the planner’s problem.}
+\subsection*{(5) Show that the obtained solution is not just locally accurate, but is in fact the exact solution to the planner’s problem.}
 
 
 %%% num. 6 %%%
-\item \textbf{Generalize the (global) solution to the case of stochastic productivity shocks $A_t$.}
+\subsection*{(6) Generalize the (global) solution to the case of stochastic productivity shocks $A_t$.}
 
 
 %%% num. 7 %%%
-\item \textbf{The analytical tractability of the model is due to special functional form assumptions,which however, have strong economic implications. What is special about consumption behavior in this model? Provide economic intuition.}
+\subsection*{(7) The analytical tractability of the model is due to special functional form assumptions,which however, have strong economic implications. What is special about consumption behavior in this model? Provide economic intuition.}
 
 
 %%% num. 8 %%%
-\item \textbf{\textit{Bonus task:} can you introduce labor into preferences and production function without compromising the analytical tractability of the model?}
+\subsection*{(8) \textit{Bonus task:} can you introduce labor into preferences and production function without compromising the analytical tractability of the model?}
 \fix{I will probably not do this} 
 
-\end{enumerate} % end P1
+
 
 \end{document}
