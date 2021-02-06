@@ -1,0 +1,175 @@
+% $•$% !TeX root = macro_PS6_case.tex
+
+\documentclass[]{article}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{enumitem}
+\usepackage{bm}
+\usepackage{cases}
+\usepackage{changepage}\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{centernot}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{hyperref} % to restart section numbers for different parts
+\usepackage{physics} % to get partial derivatives 
+\usepackage{xcolor}
+\usepackage[a4paper, total={6in, 8in}]{geometry}
+\usepackage{listings} % to input code
+       \lstset{backgroundcolor = \color{white},
+               % frame = single,
+               %keywordstyle=\color{blue}
+               }
+
+%opening
+\title{Econ 714 Quarter 1: Problem set 2 }
+\author{Emily Case}
+
+% command for blank footnote 
+\newcommand\blfootnote[1]{%
+	\begingroup
+	\renewcommand\thefootnote{}\footnote{#1}%
+	\addtocounter{footnote}{-1}%
+	\endgroup
+}
+
+\newcount\colveccount
+\newcommand*\colvec[1]{
+	\global\colveccount#1
+	\begin{pmatrix}
+		\colvecnext
+	}
+	\def\colvecnext#1{
+		#1
+		\global\advance\colveccount-1
+		\ifnum\colveccount>0
+		\\
+		\expandafter\colvecnext
+		\else
+	\end{pmatrix}
+	\fi
+}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\co}[2]{c_{#1}^{#2}} % makes subscript and superscript easier for consumption
+\newcommand{\spa}{\text{ }}
+\newcommand{\lnl}{\ell_n} % log likelihood function
+\newcommand{\bxn}{\bar{X}_n}
+\newcommand{\lag}{\mathcal{L}}
+\newcommand{\sumin}{\sum\limits_{i=1}^n} % generic sumation 1 to n
+\newcommand{\sumti}{\sum\limits_{t=0}^\infty} % sum - infinite horizon
+\newcommand{\pin}{\Pi_{i=1}^n}
+\newcommand{\argmax}{\text{arg}\max}
+\newcommand{\fix} [1] {\textbf{\textcolor{blue}{#1}}} % use this to more clearly note in problem set pdf where things need to be changed. 
+% end preamble
+
+\renewcommand*{\thesection}{\arabic{section}}
+\newcommand\numberthis{\addtocounter{equation}{1}\tag{\theequation}} % for equation numbering within align*
+
+\begin{document}
+	
+	\maketitle
+	
+	\blfootnote{I worked on this Problem set with Sarah Bass, Michael Nattinger, Alex von Hafften, and Danny Edgel.} 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section*{Problem 1}
+Consider a growth model with preferences $\sumti \beta^t\log C_t$, production function $Y_t=AK_t^\alpha$,the capital law of motion $K_{t+1}=K_{t}^{1-\delta}I_t^\delta$, and the resource constraint $Y_t=C_t+I_t$.
+
+\begin{enumerate}
+
+%%% num. 1 %%%
+\item \textbf{Write down the social planner’s problem and derive the Euler equation. Provide the intuition to this optimality condition using the perturbation argument.} 
+
+% social planner problem %
+\begin{align*}
+\max_{\{C_t\}_{t=0}^\infty} & \sumti \beta^t \log C_t 
+\\
+\text{s.t.}\; & K_{t+1}
+ = K_t^{1-\delta}(AK_t^\alpha-C_t)^\delta
+\end{align*}
+
+
+Set up the lagrangian:
+\[ \mathcal{L} = 
+\sumti \beta^t \log C_t -\lambda_t 
+[K_t^{1-\delta}(AK_t^\alpha -C_t)^\delta -K_{t+1} ]\]
+
+FOC[$C_t$]:
+\[\frac{\beta^t}{C_t} = -\lambda_t K_t^{1-\delta}(-1)\delta(AK_t^\alpha-C_t)^{\delta-1}
+\]
+which also gives us 
+\[ \lambda_t = \frac{-\beta^t}{\delta C_t K_t^{1-\delta}(AK_t^\alpha-C_t)^{\delta-1}}\]
+
+FOC[$K_{t+1}$]:
+\[\lambda_t = \lambda_{t+1} [
+k_{t+1}^{-\delta}(1-\delta)(AK_{t+1}^\alpha-C_{t+1})^\delta + 
+\delta K_{t+1}^{1-\delta}(AK_t^\alpha -C_t)^{\delta-1}\alpha AK_{t+1}^{\alpha-1}]
+\]
+
+
+Combining, and replacing the $I_t$'s, we get the Euler Equation: 
+\begin{align*}
+\frac{-\beta^t}{\delta C_t K_t^{1-\delta}I_t^{\delta-1}} 
+& = \frac{-\beta^{t+1}}{\delta C_{t+1} K_{t+1}^{1-\delta}I_{t+1}^{\delta-1}} 
+\left[ k_{t+1}^{-\delta}(1-\delta)I_{t+1}^\delta + 
+\delta K_{t+1}^{1-\delta}I_t^{\delta-1}\alpha AK_{t+1}^{\alpha-1}\right] 
+\\
+\frac{1}{C_tK_t^{1-\delta}I_t^{\delta_1}}
+& = \frac{\beta K_{t+1}^{-1}}{C_{t+1}}
+\left[ (1-\delta)I_{t+1}+\delta\alpha A K_{t+1}^\alpha \right]
+\numberthis \label{euler}
+\end{align*}
+
+\fix{need to do perturbation argument} 
+% end num. 1 %
+
+
+%%% num. 2 %%%  
+\item \textbf{Derive the system of equations that pins down the steady state of the model.}\\
+\\
+Using the Euler Equation \eqref{euler} and the capital law of motion, 
+\begin{equation} \label{LOM}
+K_{t+1}=K_{t}^{1-\delta}I_t^\delta 
+\end{equation}
+now with $C_t = C_{t+1} = \bar{C}$, $K_t=K_{t+1} = \bar{K}$, and $I_t = I_{t+1} = \bar{I}$\footnote{Where $\bar{I} = A\bar{K}^\alpha -\bar{C}$}, we get:
+
+%% steady state %%
+\begin{align}
+\eqref{euler} & \Rightarrow 1 = \beta \bar{K}^{-\alpha}\bar{I}^{\delta-1}[\delta\alpha A \bar{K}^\alpha + (1-\delta)\bar{I} ]
+\label {eulerSS}\\
+\eqref{LOM} & \Rightarrow 1 = \bar{K}^{-\delta}\bar{I}^\delta \label{LOMSS}
+\end{align}
+which define the steady state. Notice also that \eqref{LOMSS} implies $\bar{K} = \bar{I}$, which will be useful. 
+% end num. 2 %
+
+
+%%% num. 3 %%%
+\item \textbf{Log-linearize the equilibrium conditions around the steady state.} 
+
+
+%%% num. 4 %%%
+\item \textbf{Write down a dynamic system with one state variable and one control variable. Usethe Blanchard-Kahn method to solve this system for a saddle path.}
+
+
+%%% num. 5 %%%
+\item \textbf{Show that the obtained solution is not just locally accurate, but is in fact the exact solution to the planner’s problem.}
+
+
+%%% num. 6 %%%
+\item \textbf{Generalize the (global) solution to the case of stochastic productivity shocks $A_t$.}
+
+
+%%% num. 7 %%%
+\item \textbf{The analytical tractability of the model is due to special functional form assumptions,which however, have strong economic implications. What is special about consumption behavior in this model? Provide economic intuition.}
+
+
+%%% num. 8 %%%
+\item \textbf{\textit{Bonus task:} can you introduce labor into preferences and production function without compromising the analytical tractability of the model?}
+\fix{I will probably not do this} 
+
+\end{enumerate} % end P1
+
+\end{document}
