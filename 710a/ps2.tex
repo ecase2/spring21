@@ -1,0 +1,236 @@
+% $•$% !TeX root = macro_PS6_case.tex
+
+\documentclass[12pt,oneside,reqno]{amsart}
+    % \documentclass[]{article}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{enumitem}
+\usepackage{bm}
+\usepackage{cases}
+\usepackage{changepage}
+\usepackage{amsfonts}
+\usepackage{centernot}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{hyperref} % to restart section numbers for different parts
+\usepackage{physics} % to get partial derivatives 
+\usepackage{xcolor}
+\usepackage[a4paper, total={6in, 8in}]{geometry}
+\usepackage{listings} % to input code
+       \lstset{backgroundcolor = \color{white},
+               % frame = single,
+               %keywordstyle=\color{blue}
+               }
+\usepackage{etoolbox}
+% \patchcmd{<cmd>}{<search>}{<replace>}{<success>}{<failure>}
+\patchcmd{\section}{\centering}{}{}{}
+    % made section title not centered 
+\let\flushleftsection\section% Copy updated non-centered definition of \section
+\newcommand{\sectionscenter}{\let\section\centeredsection}% Switch to centered \section
+\newcommand{\sectionsleft}{\let\section\flushleftsection}% Switch to flush left \section
+
+\setlength{\parindent}{0em} % no automatic indents
+
+%opening
+\title{Econ 710 Quarter 1: Problem set 2 }
+\author{Emily Case}
+
+% command for blank footnote 
+\newcommand\blfootnote[1]{%
+	\begingroup
+	\renewcommand\thefootnote{}\footnote{#1}%
+	\addtocounter{footnote}{-1}%
+	\endgroup
+}
+
+\newcount\colveccount
+\newcommand*\colvec[1]{
+	\global\colveccount#1
+	\begin{pmatrix}
+		\colvecnext
+	}
+	\def\colvecnext#1{
+		#1
+		\global\advance\colveccount-1
+		\ifnum\colveccount>0
+		\\
+		\expandafter\colvecnext
+		\else
+	\end{pmatrix}
+	\fi
+}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\co}[2]{c_{#1}^{#2}} % makes subscript and superscript easier for consumption
+\newcommand{\spa}{\text{ }}
+\newcommand{\lnl}{\ell_n} % log likelihood function
+\newcommand{\bxn}{\bar{X}_n}
+\newcommand{\lag}{\mathcal{L}}
+\newcommand{\sumin}{\sum\limits_{i=1}^n} % generic sumation 1 to n
+\newcommand{\sumti}{\sum\limits_{t=0}^\infty} % sum - infinite horizon
+\newcommand{\pin}{\Pi_{i=1}^n}
+\newcommand{\argmax}{\text{arg}\max}
+\newcommand{\fix} [1] {\textbf{\textcolor{blue}{#1}}} % use this to more clearly note in problem set pdf where things need to be changed. 
+% end preamble
+
+\renewcommand*{\thesection}{\arabic{section}}
+\newcommand\numberthis{\addtocounter{equation}{1}\tag{\theequation}} % for equation numbering within align*
+
+\begin{document}
+	
+	\maketitle
+	
+	\blfootnote{I worked on this Problem set with Sarah Bass, Michael Nattinger, Alex von Hafften, and Danny Edgel.} 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Exercise 1}
+
+Suppose $(Y,X,Z)'$ is a vector of random variables such that 
+\begin{align*}
+Y  & = \beta_0 +X\beta_1 +U, 
+& \E[U|Z]  = 2
+\end{align*}
+where $Cov(Z,X) \neq 0$ and $\E[Y^2 +X^2+Z^2]<\infty$. Additionally, let $\{(Y_i,X_i,Z_i)'\}_{i=1}^n$ be a random sample from the model with $\widehat{Cov}(Z,X) \neq 0$. 
+\begin{align*}
+\hat{\beta}_1^{IV} & = \frac{\widehat{Cov}(Z,Y)}{\widehat{Cov}(Z,X)} 
+= \frac{\frac{1}{n} \sumin(Z_i-\bar{Z}_n)(Y_i-\bar{Y}_n)} {\frac{1}{n}\sumin (Z_i-\bar{Z}_n)(X_i-\bar{X}_n)}
+\\
+\hat{\beta}_0^{IV} & =\bar{Y}-\bar{X}\hat{\beta}_1^{IV}
+\end{align*}
+
+
+% problems %
+\begin{enumerate}[label = (\roman*)]
+
+%%% (i) %%%
+\item \textit{Does $\hat{\beta}_1^{IV} \rightarrow^p \beta_1$?} \\
+Note that by LLN and CMT, 
+\[\widehat{Cov}(Z,Y) = \frac{1}{n} \sumin(Z_i-\bar{Z}_n)(Y_i-\bar{Y}_n) \rightarrow^p \E[(Z_i-\bar{Z}_n)(Y_i-\bar{Y}_n) = Cov(Z,Y)\]  
+and by similar logic $\widehat{Cov}(Z,X) \rightarrow^p Cov(Z,X)$. Then, by CMT, 
+\begin{align*}
+\hat{\beta}^{IV}_1 & \rightarrow^p \frac{Cov(Z,Y)}{Cov(Z,X)} 
+\\
+& = \frac{Cov(Z, \beta_0 +X\beta_1 +U)}
+    {Cov(Z,X)} 
+    \\
+& = \frac{\beta_1Cov(Z,X) +Cov(Z,U)}
+    {Cov(Z,X)} 
+    \\
+& = \beta_1
+\end{align*}
+Since $Cov(Z,U) = 0$.
+\footnote{ \fix{check this}
+\begin{align*}
+Cov(Z,U) & = \E[(Z-\E[Z])(U-\E[U])] 
+\\
+& = \E[ZU] -\E[\E[Z]U] -\E[Z\E[U]] +\E[\E[Z]\E[U]]
+\\
+& = \E[ZU] -\E[Z]\E[U] 
+\\
+& = \E[Z\E[U|Z]] - E[Z]\E[\E[U|Z]] \\
+& = 2\E[Z] - 2E[Z]
+\end{align*}
+}
+\\
+
+
+%%% (ii) %%%
+\item \textit{Does $\hat{\beta}_0^{IV} \rightarrow^p \beta_0$?}
+\begin{align*}
+\hat{\beta}_0^{IV} 
+& = \bar{Y}-\bar{X}\hat{\beta}_1^{IV} 
+\\
+& \rightarrow^2 \bar{Y}-\bar{X}\beta_1
+\end{align*}
+
+% end exercise 1 % 
+\end{enumerate}
+
+
+
+\section*{Exercise 2}
+
+Consider the simultaneous model 
+
+\begin{align*}
+& Y = \beta_0+X\beta_1 +U, &\E[U|Z]= 0 
+\\
+& X = \pi_0 +Z\pi_1+V, & \E[V|Z] = 0
+\end{align*}
+
+where $\E[Y^2 +X^2+Z^2]<\infty$. Additionally, let $\{(Y_i,X_i,Z_i)'\}_{i=1}^n$ be a random sample from the model with $\frac{1}{n}\sumin (Z_i-\bar{Z}_n)^2>0$. 
+
+
+% problems % 
+\begin{enumerate}[label = (\roman*)]
+
+%%% (i) %%%
+\item \textit{Under what conditions (on $\beta_0,\;\beta_1,\;\pi_0,\;\pi_1)$ is $Z$ a valid instrument for X?}
+
+
+%%% (ii) %%%
+\item \textit{Show that}
+\begin{align*}
+& Y = \gamma_0 +Z\gamma_1 +\epsilon, 
+& \E[\epsilon|Z] = 0
+\end{align*}
+\textit{where $\gamma_0,\;\gamma_1$ and $\epsilon$ are some functions of $\beta_0,\;\beta_1,\;\pi_0,\;\pi_1,\; U,$ and $V$. In particular show that $\gamma_1 = \pi_1\beta_1$.}
+
+
+%%% (iii) %%% 
+
+
+%%% (iv) %%%
+
+
+%%% (v) %%%
+
+
+% end exercise 2 % 
+\end{enumerate}
+
+
+
+\section*{Exercise 3}
+
+The paper “Children and Their Parents’ Labor Supply: Evidence fromExogenous Variation in Family Size” by J. Angrist and W. Evans (AE98) considerslabor supply responses to the number of children in the household. 
+
+They consider models of the form
+\[Y = \beta_0 +X_1\beta_1+X'_2\beta_2 +U \]
+where $Y$ is some measure of the parents’ labor supply, $X_1$ is a binary variable indicating “more than 2 children in the household”, and $X_2$ is a vector of (assumed) exogenous variables that control for race, age, and whether any of the children is a boy. For the next two questions we will focus on the case where $Y$ is a binary variable indicating whether the mother worked during the year.
+
+
+\begin{enumerate}[label = (\roman*)]
+
+%%% (i) %%%
+\item \textit{Provide a causal interpretation of $\beta_1$.}
+
+
+%%% (ii) %%%
+\item \textit{Discuss why or why not you think that $X_1$ could be endogenous. If you think it is, discuss the direction of the (conditional) bias in OLS relative to the causal parameter.}
+
+
+%%% (iii) %%%
+\item \textit{Repeat the previous two questions when Y is a binary variable indicating whether the husband worked during the year.}
+
+
+%%% (iv) %%%
+\item \textit{Discuss why or why not you think that the binary variable $Z_1$ which indicates whether the two first children are of the same sex is a valid instrument for $X_1$.}
+
+
+%%% (v) %%% 
+\item \textit{Estimate the reduced form regression of $X_1$ on $Z_1$ and $X_2$, do the results suggest that $Z_1$ is relevant?}
+
+
+%%% (vi) %%%
+\item \textit{(Attempt to) replicate the first three rows of Table 7 columns 1, 2, 5, 7, and 8 in AE98. Interpret the empirical results in relation to your discussion of the previous questions.}
+
+% end exercise 3 % 
+\end{enumerate}
+
+
+
+
+\end{document}
