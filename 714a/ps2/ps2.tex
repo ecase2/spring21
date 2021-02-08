@@ -1,12 +1,13 @@
 % $•$% !TeX root = macro_PS6_case.tex
 
-\documentclass[]{article}
+\documentclass[12pt,oneside,reqno]{amsart}
+    % \documentclass[]{article}
 \usepackage{amssymb}
 \usepackage{amsmath}
 \usepackage{enumitem}
 \usepackage{bm}
 \usepackage{cases}
-\usepackage{changepage}\usepackage{amsmath}
+\usepackage{changepage}
 \usepackage{amsfonts}
 \usepackage{centernot}
 \usepackage{graphicx}
@@ -20,6 +21,13 @@
                % frame = single,
                %keywordstyle=\color{blue}
                }
+\usepackage{etoolbox}
+% \patchcmd{<cmd>}{<search>}{<replace>}{<success>}{<failure>}
+\patchcmd{\section}{\centering}{}{}{}
+    % made section title not centered 
+\let\flushleftsection\section% Copy updated non-centered definition of \section
+\newcommand{\sectionscenter}{\let\section\centeredsection}% Switch to centered \section
+\newcommand{\sectionsleft}{\let\section\flushleftsection}% Switch to flush left \section
 
 \setlength{\parindent}{0em} % no automatic indents
 
@@ -77,11 +85,10 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section*{Problem 1}
 Consider a growth model with preferences $\sumti \beta^t\log C_t$, production function $Y_t=AK_t^\alpha$,the capital law of motion $K_{t+1}=K_{t}^{1-\delta}I_t^\delta$, and the resource constraint $Y_t=C_t+I_t$.
 
 %%% num. 1 %%%
-\subsection*{(1) Write down the social planner’s problem and derive the Euler equation. Provide the intuition to this optimality condition using the perturbation argument.} 
+\section{Write down the social planner’s problem and derive the Euler equation. Provide the intuition to this optimality condition using the perturbation argument.} 
 
 % social planner problem %
 \begin{align*}
@@ -128,7 +135,7 @@ Combining, and replacing the $I_t$'s, we get the Euler Equation:
 
 
 %%% num. 2 %%%  
-\subsection*{(2) Derive the system of equations that pins down the steady state of the model.}
+\section{Derive the system of equations that pins down the steady state of the model.}
 
 Using the Euler Equation \eqref{euler} and the capital law of motion, 
 \begin{equation} \label{LOM}
@@ -139,7 +146,7 @@ now with $C_t = C_{t+1} = \bar{C}$, $K_t=K_{t+1} = \bar{K}$, and $I_t = I_{t+1} 
 %% steady state %%
 \begin{align}
 \eqref{euler} & \Rightarrow 1 = \beta \bar{K}^{-\alpha}\bar{I}^{\delta-1}[\delta\alpha A \bar{K}^\alpha + (1-\delta)\bar{I} ]
-\label {eulerSS}\\
+\label{eulerSS}\\
 \eqref{LOM} & \Rightarrow 1 = \bar{K}^{-\delta}\bar{I}^\delta \label{LOMSS}
 \end{align}
 which define the steady state. Notice also that \eqref{LOMSS} implies $\bar{K} = \bar{I}$, which will be useful. 
@@ -147,7 +154,7 @@ which define the steady state. Notice also that \eqref{LOMSS} implies $\bar{K} =
 
 
 %%% num. 3 %%%
-\subsection*{(3) Log-linearize the equilibrium conditions around the steady state.} 
+\section{Log-linearize the equilibrium conditions around the steady state.} 
 First log-linearize $I_t = AK_t^\alpha -C_t$:
 \[i_t = \frac{\alpha A\bar{K}^\alpha}{\bar{I}}k_t -\frac{\bar{C}}{\bar{I}}c_t
 = \alpha A\bar{K}^{\alpha-1}k_t -\frac{\bar{C}}{\bar{I}}c_t\]
@@ -162,29 +169,108 @@ k_{t+1} & = (1-\delta)k_t+\delta i_t
 \\
 & = k_t\left(1-\delta +\delta\alpha A\bar{K}^{\alpha-1}\right) -\delta\frac{\bar{C}}{\bar{I}}c_t
 \end{align*} 
-\fix{check this against someone's}
+
 
 And finally, equation \eqref{euler}:
+\begin{align*}
+c_{t+1} = c_t+(1-\delta)k_t+(\delta-1)i_t -k_{t+1}
+    + \frac{(1-\delta)i_{t+1} +\delta\alpha^2A\bar{K}^{\alpha-1}k_{t+1}} 
+        {\delta\alpha A\bar{K}^{\alpha-1} +(1-\delta)}
+\end{align*}
 
+
+\textbf{Now, it will be helpful to make some simplifications.} Define $\phi = A\bar{K}^{\alpha-1}$. 
+From the steady state law of motion \eqref{LOMSS}:
+\begin{align*}
+1 & = \bar{K}^{-\delta}\bar{I}^\delta \\
+\bar{K}^\delta & =\bar{I}^\delta \\
+\bar{I} & = \phi - \bar{C} \\
+\bar{C} + \bar{I} & = A\bar{K}^\alpha \\
+\frac{\bar{C} +\bar{I}}{\bar{K}} & = A\bar{K}^{\alpha-1} \\
+\frac{\bar{C}}{\bar{K}} & = \phi -1 
+    \numberthis \label{CK}
+\end{align*}
+
+
+From the steady state Euler equation and  \eqref{CK}, 
+\begin{align*}
+1 & = \beta \bar{K}^{-\alpha}\bar{I}^{\delta-1}[\delta\alpha A \bar{K}^\alpha + (1-\delta)\bar{I} ]
+\\
+1/\beta & = \bar{K}^{1-\delta}(A\bar{K}^\alpha-\bar{C})^{\delta-1} \left[\delta\alpha A\bar{K}^{\alpha-1}+(1-\delta)\left(A\bar{K}^{\alpha-1}-\frac{\bar{C}}{\bar{K}}\right)\right]
+\\
+\frac{1}{\beta} & = (\phi -\phi +1)(\delta\alpha\phi + (1-\delta)(\phi -\phi +1))
+\\
+\frac{1}{\beta} & = \delta\alpha\phi + (1-\delta)
+    \numberthis \label{1beta}
+\end{align*}
+
+We can now simplify the log-linearized equations more:
+\begin{align*}
+% law of motion % 
+k_{t+1} & = \beta^{-1}k_t -\delta(\phi -1)c_t
+\\
+% euler % 
+c_{t+1} & = c_t + (1-\delta)k_t 
+    + (\delta -1) [\alpha \phi k_t -(\phi-1)c_t]
+    - \beta^{-1}k_t + \delta(\phi -1)c_t
+    \\ & \;\;\;\;
+    + \beta\bigg[
+    (1-\delta)(\alpha\phi k_{t+1}-(\phi-1)c_{t+1})
+    +\delta\alpha^2\phi (\beta^{-1}k_t -\delta(\phi -1)c_t)
+    \bigg]        
+\end{align*}
 
 %%% num. 4 %%%
-\subsection*{(4) Write down a dynamic system with one state variable and one control variable. Use the Blanchard-Kahn method to solve this system for a saddle path.}
+\section{Write down a dynamic system with one state variable and one control variable. Use the Blanchard-Kahn method to solve this system for a saddle path.}
 
+Define $x_t = \colvec{2}{k_t}{c_t}$. We want to write the system as $x_{t+1} = Ax_t$ and need to therefore find $A$. 
+\fix{ I cannot get algebra right for A itself, and proceed with the eigenvalues from Duong.}\\
+\\
+A's eigenvalues:
+\begin{align*}
+\lambda_1 & = \frac{1}{\beta(1-\delta+\delta\alpha)}
+\\
+\lambda_2 & = 1-\delta+\delta\alpha
+\end{align*} 
+    
+Now analyze the roots. Recall that $\delta,\;\alpha <1$, then $\delta > \delta\alpha$, which is a very small number. Now:
+\begin{align*}
+0 > -\delta +\delta\alpha 
+\\
+1 > 1-\delta +\delta\alpha
+\end{align*}
+
+It is clear then that $\lambda_2<1$. Notice that the denominator of $\lambda_1$ is multiplying two numbers each less than 1, so is a very small number. Since it is on the bottom of the denominator, the fraction is large, and $\lambda_1>1$. Therefore, the model has a unique local solution. 
+
+\fix{Find eigenvectors}, put them as columns of Q, then we can decompose A:
+\begin{align*}
+A = Q \Lambda Q^{-1} 
+\end{align*}
+\\\\
+Now we can write the system as 
+\[x_{t+1} = Q\Lambda Q^{-1} x_t
+    = Q \begin{pmatrix}
+    \frac{1}{\beta(1-\delta+\delta\alpha)} & 0 \\
+    0 & 1-\delta+\delta\alpha  \\
+    \end{pmatrix} Q^{-1} x_t 
+\] 
+Define $y_{t+1} = Q^{-1}x_{t+1}$ and $y_t = Q^{-1}x_t$, then $y_{t+1} = \Lambda y_t$
+\fix{need to continue with this and fill things in obviously} 
 
 %%% num. 5 %%%
-\subsection*{(5) Show that the obtained solution is not just locally accurate, but is in fact the exact solution to the planner’s problem.}
+\section{Show that the obtained solution is not just locally accurate, but is in fact the exact solution to the planner’s problem.}
 
 
 %%% num. 6 %%%
-\subsection*{(6) Generalize the (global) solution to the case of stochastic productivity shocks $A_t$.}
+\section{Generalize the (global) solution to the case of stochastic productivity shocks $A_t$.}
 
 
 %%% num. 7 %%%
-\subsection*{(7) The analytical tractability of the model is due to special functional form assumptions,which however, have strong economic implications. What is special about consumption behavior in this model? Provide economic intuition.}
+\section{The analytical tractability of the model is due to special functional form assumptions,which however, have strong economic implications. What is special about consumption behavior in this model? Provide economic intuition.}
 
 
 %%% num. 8 %%%
-\subsection*{(8) \textit{Bonus task:} can you introduce labor into preferences and production function without compromising the analytical tractability of the model?}
+\section{\textit{Bonus task:} can you introduce labor into preferences and production function without compromising the analytical tractability of the model?}
 \fix{I will probably not do this} 
 
 
