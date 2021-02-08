@@ -142,7 +142,14 @@ Cov(Z,U) & = \E[(Z-\E[Z])(U-\E[U])]
 \hat{\beta}_0^{IV} 
 & = \bar{Y}-\bar{X}\hat{\beta}_1^{IV} 
 \\
-& \rightarrow^2 \bar{Y}-\bar{X}\beta_1
+& \rightarrow^p \E[Y]-\E[X]\beta_1 
+\\
+& = \E[\beta_0 +X\beta_1 +U]-\E[X]\beta_1 
+\\
+& = \beta_0 +\E[U] 
+\\
+& = \beta_0 +\E[\E[U|Z]] = \beta_0+2  \\
+& \neq \beta_0
 \end{align*}
 
 % end exercise 1 % 
@@ -167,7 +174,8 @@ where $\E[Y^2 +X^2+Z^2]<\infty$. Additionally, let $\{(Y_i,X_i,Z_i)'\}_{i=1}^n$ 
 \begin{enumerate}[label = (\roman*)]
 
 %%% (i) %%%
-\item \textit{Under what conditions (on $\beta_0,\;\beta_1,\;\pi_0,\;\pi_1)$ is $Z$ a valid instrument for X?}
+\item \textit{Under what conditions (on $\beta_0,\;\beta_1,\;\pi_0,\;\pi_1)$ is $Z$ a valid instrument for X?} \\
+\fix{would like to go over}
 
 
 %%% (ii) %%%
@@ -177,15 +185,24 @@ where $\E[Y^2 +X^2+Z^2]<\infty$. Additionally, let $\{(Y_i,X_i,Z_i)'\}_{i=1}^n$ 
 & \E[\epsilon|Z] = 0
 \end{align*}
 \textit{where $\gamma_0,\;\gamma_1$ and $\epsilon$ are some functions of $\beta_0,\;\beta_1,\;\pi_0,\;\pi_1,\; U,$ and $V$. In particular show that $\gamma_1 = \pi_1\beta_1$.}
+\\
+\begin{align*}
+Y & = \beta_0 + (\pi_0 +Z\pi_1+V)\beta_1 +U \\
+  & = \beta_0 +\pi_0\beta_1 +Z\pi_1\beta_1 +V\beta_1 +U 
+\end{align*}
 
+\noindent Then $\gamma_0 = \beta_0+\pi_0\beta_1,\; \gamma_1 - \pi_1\beta_1,\; \epsilon = V\beta_1 +U$.
 
 %%% (iii) %%% 
+\item \textit{Let $\hat{\gamma}_1$ and $\hat{\pi}_1$ denote the OLS estimators of $\gamma_1$ and $\pi_1$, respectively. The ratio $\hat{\gamma}_1/\hat{\pi}_1$ is called the "indirect least squares" estimator of $\beta_1$. How does it compare to the IV estimator of $\beta_1$ that uses $Z$ as an instrument for $X$?}
 
 
 %%% (iv) %%%
+\item \textit{Show that $Y = \delta_0 + X \delta_1 + V \delta_2 + \xi$, $Cov(X, \xi) = Cov(V, \xi) = 0$ where $\delta_0, \delta_1, \delta_2$, and $\xi$ are some functions of $\beta_0, \beta_1, Cov(U, V), Var(V), U, V$. In particular, show that $\delta_1 = \beta_1$.}
 
 
 %%% (v) %%%
+\item \textit{Let $\hat{V}_i = X_i - \hat{\pi}_0 - Z_i \hat{\pi}_1$ where $\hat{\pi}_0$ is the OLS estimator of $\pi_0$. Furthermore, let $\hat{\delta}_1$ be the OLS estimator from a regression of $Y_i$ on $(1,X_i,\hat{V}_i)$; this estimator is called the “control variable” estimator. How does it compare to the IV estimator of $\beta_1$ that uses $Z$ as an instrument for $X$?}
 
 
 % end exercise 2 % 
@@ -195,7 +212,7 @@ where $\E[Y^2 +X^2+Z^2]<\infty$. Additionally, let $\{(Y_i,X_i,Z_i)'\}_{i=1}^n$ 
 
 \section*{Exercise 3}
 
-The paper “Children and Their Parents’ Labor Supply: Evidence fromExogenous Variation in Family Size” by J. Angrist and W. Evans (AE98) considerslabor supply responses to the number of children in the household. 
+The paper “Children and Their Parents’ Labor Supply: Evidence from Exogenous Variation in Family Size” by J. Angrist and W. Evans (AE98) considers labor supply responses to the number of children in the household. 
 
 They consider models of the form
 \[Y = \beta_0 +X_1\beta_1+X'_2\beta_2 +U \]
@@ -205,15 +222,26 @@ where $Y$ is some measure of the parents’ labor supply, $X_1$ is a binary vari
 \begin{enumerate}[label = (\roman*)]
 
 %%% (i) %%%
-\item \textit{Provide a causal interpretation of $\beta_1$.}
-
+\item \textit{Provide a causal interpretation of $\beta_1$.}\\
+\\
+Holding demographic information constant, having more than 2 children in the household causes mother's to be $\beta_1$ more likely to work.  \fix{check}
+\\
 
 %%% (ii) %%%
-\item \textit{Discuss why or why not you think that $X_1$ could be endogenous. If you think it is, discuss the direction of the (conditional) bias in OLS relative to the causal parameter.}
-
+\item \textit{Discuss why or why not you think that $X_1$ could be endogenous. If you think it is, discuss the direction of the (conditional) bias in OLS relative to the causal parameter.}\\
+\\
+Most families have a preconceived idea about how many children they would like to have, and different types of parents will want different amounts of children. In that sense, $X_1$ is endogenous. The exception to this is if the second child a family chooses to have turns out to actually be twins, which they had no choice in. They wanted 2 kids, and ended up with 3. \\
+\\
+If $X_1$ is endogenous, the bias would likely be negative. If a mother wants 3 or more kids, she might really like children and want to be a stay at home mom, in which case she isn't concerned about her labor supply. \fix{in depth enough? did i say the bias direction right?} 
+\\
 
 %%% (iii) %%%
-\item \textit{Repeat the previous two questions when Y is a binary variable indicating whether the husband worked during the year.}
+\item \textit{Repeat the previous two questions when Y is a binary variable indicating whether the husband worked during the year.}\\
+\\
+Holding demographic information constant, having more than 2 children in the household causes fathers to be $\beta_1$ more likely to work.  \fix{check} 
+\\\\
+The argument for $X_1$ being endogenous still applies, since we only changed the definition of $Y$. Now, however, the bias might go the other direction. If a mother wants more children and we associate that with her being more likely to want to stay at home, then the father is more likely to work in order to take care of the family. 
+\\
 
 
 %%% (iv) %%%
