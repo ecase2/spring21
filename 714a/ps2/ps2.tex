@@ -129,8 +129,6 @@ Combining, and replacing the $I_t$'s, we get the Euler Equation:
 \left[ (1-\delta)I_{t+1}+\delta\alpha A K_{t+1}^\alpha \right]
 \numberthis \label{euler}
 \end{align*}
-
-\fix{need to do perturbation argument} 
 % end num. 1 %
 
 
@@ -257,21 +255,76 @@ Now we can write the system as
 Define $y_{t+1} = Q^{-1}x_{t+1}$ and $y_t = Q^{-1}x_t$, then $y_{t+1} = \Lambda y_t$
 \fix{need to continue with this and fill things in obviously} 
 
+Rather than solve for the saddle path here, I will do it later on. Since we are doing a linear approximation of a linear function, the linear approximation is exact. 
+
+
 %%% num. 5 %%%
 \section{Show that the obtained solution is not just locally accurate, but is in fact the exact solution to the planner’s problem.}
+Make a guess that the solution to the Euler equation will be of the form $C_t= ZK_t^z$, then we need to find $Z$ and $z$ to make the solution. Plugging this in to the Euler, 
+\begin{align*}
+\frac{1}{C_tK_t^{1-\delta}I_t^{\delta-1}}
+& = \frac{\beta}{C_{t+1}K_{t+1}}
+\left[ (1-\delta)I_{t+1}+\delta\alpha A K_{t+1}^\alpha \right] 
+\\
+\Rightarrow \frac{1}{ZK_t^zK_t^{1-\delta}(AK_t^\alpha -ZK_t^z)^{\delta-1}}
+& = \frac{\beta}{ZK_{t+1}^zK_{t+1}}
+\left[ (1-\delta)(AK_{t+1}^\alpha-ZK_{t+1}^z)+\delta\alpha A K_{t+1}^\alpha \right] 
+\\
+\frac{1}{K_t^zK_t^{1-\delta}(AK_t^\alpha -ZK_t^z)^{\delta-1}}
+& = \beta \left[ (1-\delta)(AK_{t+1}^{\alpha-z-1}-ZK_{t+1}^{-1})+\delta\alpha A K_{t+1}^{\alpha-z-1} \right] 
+\\
+& = \beta[ AK_{t+1}^{\alpha-z-1}-ZK_{t+1}^{-1} 
+    - \delta AK_{t+1}^{\alpha-z-1}+\delta ZK_{t+1}^{-1}
+    +\delta\alpha A K_{t+1}^{\alpha-z-1} ]
+\end{align*}
+It is straightforward to see that if $C_t=ZK_t^z = AK_t^\alpha$, we only get a corner solution (consumption is all of output). If we still let $z=\alpha,$ then it simplifies more:
+\begin{align*}
+\frac{1}{K_t^{1+\alpha-\delta} K_t^{\alpha(\delta-1)}(A-Z)^{\delta-1}} 
+& = \beta[ AK_{t+1}^{-1}-ZK_{t+1}^{-1}-\delta AK_{t+1}^{-1} +\delta\alpha AK_{t+1}^{-1}]
+\\
+\frac{1}{K_t^{1+\alpha-\delta} K_t^{\alpha(\delta-1)}(A-Z)^{\delta-1}} 
+& = \beta K_{t+1}^{-1}[ A-Z-\delta A +\delta\alpha A]
+\\
+\frac{K_{t+1}}{\beta K_t^{1+\alpha\delta-\delta} (A-Z)^{\delta-1} }
+& =[ A-Z-\delta A +\delta\alpha A]
+\end{align*}
 
+Supposing I had worked the algebra out here to get Z, then $C_t=ZK_t^z$ for those values would define the saddle path. Also note that log linearized, it is $c_t = zk_t$, which is completely linear. It must be the solution to the social planner's problem 
 
 %%% num. 6 %%%
 \section{Generalize the (global) solution to the case of stochastic productivity shocks $A_t$.}
+The social planner's problem is 
+\begin{align*}
+\max_{C_t} & E_t\sumti \beta^t \log C_t \\
+\text{s.t. }& K_{t+1} = K_t^{1-\delta}(A_tK_t^\alpha -C_t)^\delta
+\end{align*}
+Lagrangian:
+\[ \mathcal{L} = E_t\sumti \beta^t \log C_t +\lambda_t(-K_{t+1} + K_t^{1-\delta}(A_tK_t^\alpha -C_t)^\delta) \]
 
+FOC:
+\begin{align*}
+&[C_t]: & \frac{\beta^t}{C_t} & = \lambda_tK_t^{1-\delta} \delta (A_tK_t^\alpha -C_t)^{\delta-1} 
+\\
+&& \lambda_t & = \frac{\beta^t}{C_tK_t^{1-\delta}I_t^{\delta-1}}
+\\
+&[K_{t+1}]: & 
+\lambda_t & = E_{t}\lambda_{t+1} [ (1-\delta)K_{t+1}^{-\delta} (A_{t+1}K_{t+1}^\alpha -C_{t+1})^\delta) 
++\delta K_{t+1}^{1-\delta}(A_{t+1}K_{t+1}^\alpha -C_{t+1})^{\delta-1} (A_{t+1}\alpha K_{t+1}^{\alpha-1})]
+\\
+& & & = E_{t}\lambda_{t+1} [ (1-\delta)K_{t+1}^{-\delta} I_{t+1}^\delta 
++\delta K_{t+1}^{1-\delta}I_{t+1}^{\delta-1} (A_{t+1}\alpha K_{t+1}^{\alpha-1})]
+\end{align*}
+\[\frac{\beta^t}{C_tK_t^{1-\delta}I_t^{\delta-1}} 
+= E_{t}\frac{\beta^{t+1}}{C_{t+1}} [(1-\delta)K_{t+1}^{-1} I_{t+1} +\delta (A_{t+1}\alpha K_{t+1}^{\alpha-1})]\]
+\fix{I am choosing to stop here for time and to also prioritize the next problem set} 
 
 %%% num. 7 %%%
 \section{The analytical tractability of the model is due to special functional form assumptions,which however, have strong economic implications. What is special about consumption behavior in this model? Provide economic intuition.}
-
+Notice that in the law of motion, investment is perfectly correlated with changes in capital. Then in the resource constraint, if that is true, then consumption and capital deviations away from the steady state are perfectly correlated. This is similar to what we observe in real life. 
 
 %%% num. 8 %%%
 \section{\textit{Bonus task:} can you introduce labor into preferences and production function without compromising the analytical tractability of the model?}
-\fix{I will probably not do this} 
+ 
 
 
 
