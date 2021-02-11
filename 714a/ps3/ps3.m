@@ -1,6 +1,7 @@
 %{
 Macro quarter 3 problem set 3
 Emily Case
+    (with HEAVY assistance and explanations from Michael Nattinger)
 %}
 
 %% preparing data %% 
@@ -96,6 +97,17 @@ hold off
 %% question 8 %%
     % solve the counterfactual 
 
-    % need the labor function and calculating capital 
+[gdpa, gdpg, gdptauL, gdptauI] = counterfact(rhoI,rhoa,rhog,rhoL,a,g,...
+    tauhatL,tauhatI,c,k,alpha,delta,sigma,phi,Gbar,Abar,taubarI,...
+    taubarL,beta,Ybar,Kbar,Cbar,Lbar)
+    
+
+figure 
+plot(gdpa)
+hold on
+plot(gdpg)
+plot(gdptauL)
+plot(gdptauI)
+hold off
 
 
