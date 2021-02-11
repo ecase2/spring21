@@ -251,12 +251,27 @@ M3 selects W3 of his options, leaving W2 single until next round. M2 accepts his
 
 This is a female-optimal stable matching that took two rounds. 
 \\\\
-\fix{Not sure about a non DAA stable matching}
+\fix{Should get the same thing. change my logic}
 
 
 %%% (b) %%% 
-\item \textit{From now on,  assume side transfers are possible.  Let payoffs be the sum of transfers.  Find the efficient matching.}
+\item \textit{From now on,  assume side transfers are possible.  Let payoffs be the sum of transfers.  Find the efficient matching.} \\
+The new payoffs are:
 
+\begin{center}
+\begin{tabular}{|c|c|c|c|}
+\hline 
+      & M1 & M2 & M3 \\ 
+\hline 
+W1 & 3 & \textbf{7} & 5 \\ 
+\hline 
+W2 & \textbf{4} & 6 & 5 \\ 
+\hline 
+W3 & 4 & 4 & \textbf{8} \\ 
+\hline 
+\end{tabular} 
+\end{center}
+and the most efficient matching is bolded, with a total payoff of 19.
 
 %%% (c) %%% 
 \item \textit{Find with proof the minimum wage for the type 2 man.}\footnote{Hint: Let the wages of women be $w_i$ and wages of men be $v_i$.}
@@ -275,16 +290,45 @@ This is a female-optimal stable matching that took two rounds.
     \item Everyone who is type x, regardless of their ranking, prefers the type y who draws value 1 ($1_y$) in order to maximize their payoffs. 
     \item Symmetrically, all of type y will prefer the x with value 1 ($1_x$).  
 \end{itemize}
-Because of symmetry the matching will be the same no matter what, but consider that x makes the proposals. All x propose to $1_y$, who will accept $1_x$. Then remaining x all propose to the second highest y, who accepts the second highest x, and so on. We get matchings $(1_x,1_y),\; ... ,\; (0_x,0_y)$. In other words, x and y agents of the same ranking in the uniform distribution are matched. \fix{edit for clarity?}
+Because of symmetry the matching will be the same no matter what, but consider that x makes the proposals. All x propose to $1_y$, who will accept $1_x$. Then remaining x all propose to the second highest y, who accepts the second highest x, and so on. We get stable matchings $(1_x,1_y),\; ... ,\; (0_x,0_y)$. In other words, x and y agents of the same ranking in the uniform distribution are matched. Mathematically we can say that the matching function for $x$ is:
+\[x(y) = y\]
 
 
 %%% (b) %%% 
-\item
+\item Set up a matching market, with wage $w(x)$ for each type x.  What wage can decentralize this market?  (Can any other wage work?)\\
+\\
+Match makers in this economy profit $f(x,y) -w(x)-w(y)$, where $f(x,y) = x+y+2axy$. Note that the second derivative of the output is $f_{xy} = 2a<0$, so the optimum choice here is $y = 1-x$. Profit becomes
+\[\pi(x,y)  = x+y+2axy-w(x)-w(y)\]
+FOC[x]:
+\[1+2ay-w'(x) = 1+2a(1-x)-w'(x) = 0\Rightarrow 
+w'(x) = 1+2a(1-x)\]
+Which we now integrate and get $w(x) = x+2ax-ax^2 + c$ for some constant $c$. We can impose the condition of free entry and exit of matchmakers to get 
+\begin{align*}
+0 & = x+y+2axy-w(x)-w(y) 
+\\
+0 & = 1+2ax(1-x) -w(x) -w(1-x)
+\\
+0 & = 1 +2ax(1-x) -[x+2ax-ax^2 + c]
+    - [1-x+2a(1-x)-a(1-x)^2 + c]
+    \\
+2c & = 2ax-2ax^2 +2ax-ax^2-2a+2ax +a-a2x+ax^2
+\\
+c & = a/2
+\end{align*}
+So the wage is $w(x) = x+2ax-ax^2 + a/2$. 
 
 
+% end question 2
 \end{enumerate}
 
 
-\section{}
+\section{Double Auctions - The Borrowers: There are 30 students numbered 1,2,3, ...,30. Even students are lenders and odd students are borrowers. The lenders each have 1000 to lend, and the return available to any lender is 3\% plus 0.01\% (known as a basis point) times twice his student number.  The borrower has a return on a project equal to 3\% plus 0.01\% times his student number.  So a borrower borrows if he can get an interest rate below his project's return, and a lender lends if he can get an interest rate above the return he has available to him.  What are all possible market clearing interest rates, and numbers of transactions?}
+Lenders: student 2 gets a return of 3.04\%, 4 gets 3.08\%, 6 gets 3.12\%, and so on. Borrowers get project returns: student 1 gets 3.01\%, student 3 gets 3.03\%, and so on. \\
+\\
+Student 1's project return is lower than any possible return to the lenders, and so no one will match with student 1. Student 30 has the highest rate, 3.60\%, yet the highest any of the borrowers are willing to go is 3.29\%, and so no one will want to borrow from student 30. In fact, no one will want to borrow from even numbered students 16,18,...30.  That leaves 7 lenders from which to borrow. \\
+\\
+In order for the market to clear, the interest rate must be at least 3.15 to 3.16\%. If it is less than 3.15\%, then there are 8 who wish to borrow, but only 3 willing to lend. If it is above 3.16\%, then there are at most 7 willing to borrow, but 4 willing to lend. \\
+\fix{I must be missing something.}
+
 
 \end{document}

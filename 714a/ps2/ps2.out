@@ -1,0 +1,8 @@
+\BOOKMARK [1][-]{section.1}{1. Write down the social planner\220s problem and derive the Euler equation. Provide the intuition to this optimality condition using the perturbation argument.}{}% 1
+\BOOKMARK [1][-]{section.2}{2. Derive the system of equations that pins down the steady state of the model.}{}% 2
+\BOOKMARK [1][-]{section.3}{3. Log-linearize the equilibrium conditions around the steady state.}{}% 3
+\BOOKMARK [1][-]{section.4}{4. Write down a dynamic system with one state variable and one control variable. Use the Blanchard-Kahn method to solve this system for a saddle path.}{}% 4
+\BOOKMARK [1][-]{section.5}{5. Show that the obtained solution is not just locally accurate, but is in fact the exact solution to the planner\220s problem.}{}% 5
+\BOOKMARK [1][-]{section.6}{6. Generalize the \(global\) solution to the case of stochastic productivity shocks At.}{}% 6
+\BOOKMARK [1][-]{section.7}{7. The analytical tractability of the model is due to special functional form assumptions,which however, have strong economic implications. What is special about consumption behavior in this model? Provide economic intuition.}{}% 7
+\BOOKMARK [1][-]{section.8}{8. Bonus task: can you introduce labor into preferences and production function without compromising the analytical tractability of the model?}{}% 8
