@@ -1,0 +1,120 @@
+% $•$% !TeX root = macro_PS6_case.tex
+
+\documentclass[12pt,oneside,reqno]{amsart}
+    % \documentclass[]{article}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{enumitem}
+\usepackage{bm}
+\usepackage{cases}
+\usepackage{changepage}
+\usepackage{amsfonts}
+\usepackage{centernot}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{hyperref} % to restart section numbers for different parts
+\usepackage{physics} % to get partial derivatives 
+\usepackage{xcolor}
+\usepackage[a4paper, total={6in, 8in}]{geometry}
+\usepackage{listings} % to input code
+       \lstset{backgroundcolor = \color{white},
+               % frame = single,
+               %keywordstyle=\color{blue}
+               }
+\usepackage{etoolbox}
+% \patchcmd{<cmd>}{<search>}{<replace>}{<success>}{<failure>}
+\patchcmd{\section}{\centering}{}{}{}
+    % made section title not centered 
+\let\flushleftsection\section% Copy updated non-centered definition of \section
+\newcommand{\sectionscenter}{\let\section\centeredsection}% Switch to centered \section
+\newcommand{\sectionsleft}{\let\section\flushleftsection}% Switch to flush left \section
+
+\setlength{\parindent}{0em} % no automatic indents
+
+%opening
+\title{Econ 714 Quarter 1: Problem set 3 }
+\author{Emily Case}
+
+% command for blank footnote 
+\newcommand\blfootnote[1]{%
+	\begingroup
+	\renewcommand\thefootnote{}\footnote{#1}%
+	\addtocounter{footnote}{-1}%
+	\endgroup
+}
+
+\newcount\colveccount
+\newcommand*\colvec[1]{
+	\global\colveccount#1
+	\begin{pmatrix}
+		\colvecnext
+	}
+	\def\colvecnext#1{
+		#1
+		\global\advance\colveccount-1
+		\ifnum\colveccount>0
+		\\
+		\expandafter\colvecnext
+		\else
+	\end{pmatrix}
+	\fi
+}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\co}[2]{c_{#1}^{#2}} % makes subscript and superscript easier for consumption
+\newcommand{\spa}{\text{ }}
+\newcommand{\lnl}{\ell_n} % log likelihood function
+\newcommand{\bxn}{\bar{X}_n}
+\newcommand{\lag}{\mathcal{L}}
+\newcommand{\sumin}{\sum\limits_{i=1}^n} % generic sumation 1 to n
+\newcommand{\sumti}{\sum\limits_{t=0}^\infty} % sum - infinite horizon
+\newcommand{\pin}{\Pi_{i=1}^n}
+\newcommand{\argmax}{\text{arg}\max}
+\newcommand{\fix} [1] {\textbf{\textcolor{blue}{#1}}} % use this to more clearly note in problem set pdf where things need to be changed. 
+% end preamble
+
+\renewcommand*{\thesection}{\arabic{section}}
+\newcommand\numberthis{\addtocounter{equation}{1}\tag{\theequation}} % for equation numbering within align*
+
+\begin{document}
+	
+	\maketitle
+	
+	\blfootnote{I worked on this Problem set with Sarah Bass, Michael Nattinger, Alex von Hafften, Hanna Han, and Danny Edgel.} 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%% 1 %%% no action required
+\section{Download quarterly data for real seasonally adjusted consumption, employment, andoutput in the U.S. from 1980–2020 from FRED database.  The series for capital are notreadily available, but can be constructed using the “perpetual inventory method”.  Tothis end, download the series for (real seasonally adjusted) investment from 1950-2020.}
+
+
+%%% 2 %%% no action required 
+\section{Convert all variables into logs and de-trend using the Hodrick-Prescott filter.}
+
+ 
+%%% 3 %%% 
+\section{Assume that capital was at the steady-state level in 1950 and the rate of depreciation is $\delta= 0.025$ and use the linearized capital law of motion and the series for investment to estimate the capital stock (in log deviations) in 1980-2020.  Justify this approach.}
+
+
+%%% 4 %%%
+\section{Linearize  the  equilibrium  conditions.   Assuming $\beta=  0.99$, $\alpha=  1/3$, $\sigma=  1,\;\phi=  1,\; \tau_L=\tau_I= 0$ in steady state,  and the steady-state share of government spendings in GDP equal 1/3,  estimate $a_t,\;g_t$ and $\tau_{L,t}$ for 1980-2020.  Run the OLS regression for each of these wedges to compute their persistence parameters $\rho_i.$}
+
+
+%%% 5 %%% 
+\section{Write down a code that implements the Blanchard-Kahn method to solve the model. Use the values of parameters, including $\rho_a,\;\rho_g$ and $\rho_{\tau_L}$, obtained above, and assume $\rho{\tau_I}= 0$ for now.}
+
+
+%%% 6 %%%
+\section{Solve the fixed-point problem to estimate $\tau_{I,t}$:  conjecture a value of $\rho_{\tau_I}$, solve numerically the model for consumption as a function of capital and wedges, use the estimated values of consumption and other wedges to infer the series of $\tau_{I,t}$, run AR(1) regression and estimate $\rho_{\tau_I}$, iterate until convergence.}
+
+
+%%% 7 %%%
+\section{Draw one large figure that shows dynamics of all wedges during the period.}
+
+
+%%% 8 %%% 
+\section{Solve the model separately for each wedge.  Show a figure with the actual GDP and the four counterfactual series of output.  Which wedge explains most of the contraction during the Great Recession of 2009?  during the Great Lockdown of 2020?  Explain.}
+
+\end{document}
