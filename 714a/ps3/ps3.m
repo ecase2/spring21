@@ -73,12 +73,29 @@ rhog = g(1:end-1)\g(2:end);
 rhoL = tauhatL(1:end-1)\tauhatL(2:end);
 rhoI0 = 0; % guess 
 
-%% question 5 %% 
+%% question 5, 6 %% 
     % blanchard kahn method % 
+
+% using functions in BKFP.m, estimate tauhatI 
+[rhoI,tauhatI] = BKFP(rhoI0,rhoa,rhog,rhoL,a,g,tauhatL,c,k,alpha,delta,sigma,phi ...
+        ,Gbar,Abar,taubarI,taubarL,beta,Ybar,Kbar,Cbar,Lbar);  
     
-[A,B] = LOM(rhoI0,rhoa,rhog,rhoL,alpha,delta,sigma,phi,Gbar,Abar,taubarI,taubarL,beta,Ybar,Kbar,Cbar,Lbar)
     
+%% question 7 %%
+    % plot figures 
+    
+figure 
+plot(tauhatI)
+hold on
+plot(tauhatL)
+plot(a)
+plot(g)
+hold off
 
 
+%% question 8 %%
+    % solve the counterfactual 
+
+    % need the labor function and calculating capital 
 
 

@@ -1,4 +1,4 @@
-function [A,B] = LOM(rhoI0,rhoa,rhog,rhoL,palpha,pdelta,psigma,pphi,pGbar,pAbar,ptaubarI,ptaubarL,pbeta,Ybar,Kbar,Cbar,Lbar)
+function [A,B] = LOM(rhoI0,rhoa,rhog,rhoL,palpha,pdelta,psigma,pphi,pGbar,pAbar,taubarI,taubarL,pbeta,Ybar,Kbar,Cbar,Lbar)
 % calculates law of motion EX_p = AX +BZ for log linearized model
 syms C K Cp Kp I Ip L Lp g a htauL htauI gp ap htauLp htauIp
     % p at end for time t+1 
