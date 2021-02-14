@@ -4,6 +4,8 @@ Emily Case
     (with HEAVY assistance and explanations from Michael Nattinger)
 %}
 
+clc, clear;
+
 %% preparing data %% 
 [x,xt] = xlsread('macropset3q3.xls','matlab');
 [I,it] = xlsread('macropset3q3.xls','inv');
@@ -13,20 +15,26 @@ Emily Case
 x = log(x); 
 I = log(I);
 
+% filter the data: matlab does this for us woohoo!
 xhp = hpfilter(x);
 Ihp = hpfilter(I);
 
+
+% detrend
 x= x-xhp;
 I= I-Ihp;
 
+
 x = x(:,2:end);% get rid of date column
 I = I(:,2);
+
 
 % initialize some stuff
 delta = 0.025;
 k = 0*I;
 
-% assume the first capital is 0, which is already input
+% assume the first capital is 0, which is already input. use LOM to fill in
+% capital
 for t = 1:length(k)-1 % input k values 
     k(t+1) = (1-delta)*k(t) + delta * I(t); % linearized LOM
 end
@@ -50,19 +58,20 @@ y = x(:,1);
 c = x(:,2);
 l = x(:,3);
 T = length(y);
-I = I(end-T+1:end);
+I = I(end-T+1:end); % get these to the same length
 k = k(end-T+1:end);
 
-% solve for a_t
+% now i solve for the shocks and their rhos
+
+% solve for a_t from linearized production function
 a = y - alpha*k -(1-alpha)*l;
 
-% we need some bars for the next one which we do with solver 
-
-% get steady state values:
+% we need some steady state values for the next one which we do with the 
+% function calc_ss:
 [Ybar,Cbar,Kbar,Lbar] = calc_ss(alpha, sigma, phi, Gbar, Abar, taubarL, taubarI, beta, delta);
 Ibar = delta*Kbar;
 
-% solve for g_t
+% solve for  shock g_t
 g = (y - (Cbar/Ybar)*c - (Ibar/Ybar)*I )/Gbar;
 
 % solve for tau hat_L,t
@@ -72,7 +81,7 @@ tauhatL = alpha*k-alpha*l -phi*l -sigma*c;
 rhoa = a(1:end-1)\a(2:end);
 rhog = g(1:end-1)\g(2:end);
 rhoL = tauhatL(1:end-1)\tauhatL(2:end);
-rhoI0 = 0; % guess 
+rhoI0 = 0; % guess for now 
 
 %% question 5, 6 %% 
     % blanchard kahn method % 
@@ -81,10 +90,14 @@ rhoI0 = 0; % guess
 [rhoI,tauhatI] = BKFP(rhoI0,rhoa,rhog,rhoL,a,g,tauhatL,c,k,alpha,delta,sigma,phi ...
         ,Gbar,Abar,taubarI,taubarL,beta,Ybar,Kbar,Cbar,Lbar);  
     
+% also, now put all the persistences into a table for writeup.
+rho = [rhoa rhog rhoL rhoI]';
+col = {'a', 'g', 'tau L', 'tau I'};
+rhotable = table(rho);
+rhotable.Properties.RowNames = col;
+table2latex(rhotable,'table.tex')
     
-%% question 7 %%
-    % plot figures 
-    
+% plot the wedges
 figure 
 plot(tauhatI)
 hold on
@@ -92,6 +105,16 @@ plot(tauhatL)
 plot(a)
 plot(g)
 hold off
+%xlabel('asset holdings, k','FontSize',14);
+%ylabel('value function, V_{50}(k)','FontSize',14);
+title(['Wedges'],'FontSize',14)
+legend('\tau_I','\tau_L','a','g','Location','NorthWest')
+saveas(gcf,'wedges.png')
+    
+%% question 7 %%
+    % plot figures 
+    
+
 
 
 %% question 8 %%
@@ -99,7 +122,7 @@ hold off
 
 [gdpa, gdpg, gdptauL, gdptauI] = counterfact(rhoI,rhoa,rhog,rhoL,a,g,...
     tauhatL,tauhatI,c,k,alpha,delta,sigma,phi,Gbar,Abar,taubarI,...
-    taubarL,beta,Ybar,Kbar,Cbar,Lbar)
+    taubarL,beta,Ybar,Kbar,Cbar,Lbar);
     
 
 figure 
@@ -108,6 +131,10 @@ hold on
 plot(gdpg)
 plot(gdptauL)
 plot(gdptauI)
+plot(y)
 hold off
+title('Counterfactual')
+legend('a','g','\tau_L','\tau_I','Actual GDP','Location','SouthWest')
+saveas(gcf,'counterfact.png')
 
 
