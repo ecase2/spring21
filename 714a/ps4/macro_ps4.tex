@@ -1,0 +1,198 @@
+% $•$% !TeX root = macro_PS6_case.tex
+
+\documentclass[12pt,oneside,reqno]{amsart}
+    % \documentclass[]{article}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{enumitem}
+\usepackage{bm}
+\usepackage{cases}
+\usepackage{changepage}
+\usepackage{amsfonts}
+\usepackage{centernot}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{hyperref} % to restart section numbers for different parts
+\usepackage{physics} % to get partial derivatives 
+\usepackage{xcolor}
+\usepackage[a4paper, total={6in, 8in}]{geometry}
+\usepackage{listings} % to input code
+       \lstset{backgroundcolor = \color{white},
+               % frame = single,
+               %keywordstyle=\color{blue}
+               }
+\usepackage{etoolbox} 
+\patchcmd{\section}{\centering}{}{}{}
+    % made section title not centered 
+\let\flushleftsection\section% Copy updated non-centered definition of \section
+\newcommand{\sectionscenter}{\let\section\centeredsection}% Switch to centered \section
+\newcommand{\sectionsleft}{\let\section\flushleftsection}% Switch to flush left \section
+
+\setlength{\parindent}{0em} % no automatic indents
+
+%\usepackage{titlesec}
+  %  \titleformat{\section}
+  %      { \bfseries}{\thesection}{1em}{}
+
+%opening
+\title{Econ 714 Quarter 1: Problem set 4 }
+\author{Emily Case}
+
+% command for blank footnote 
+\newcommand\blfootnote[1]{%
+	\begingroup
+	\renewcommand\thefootnote{}\footnote{#1}%
+	\addtocounter{footnote}{-1}%
+	\endgroup
+}
+
+\newcount\colveccount
+\newcommand*\colvec[1]{
+	\global\colveccount#1
+	\begin{pmatrix}
+		\colvecnext
+	}
+	\def\colvecnext#1{
+		#1
+		\global\advance\colveccount-1
+		\ifnum\colveccount>0
+		\\
+		\expandafter\colvecnext
+		\else
+	\end{pmatrix}
+	\fi
+}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\co}[2]{c_{#1}^{#2}} % makes subscript and superscript easier for consumption
+\newcommand{\spa}{\text{ }}
+\newcommand{\lnl}{\ell_n} % log likelihood function
+\newcommand{\bxn}{\bar{X}_n}
+\newcommand{\lag}{\mathcal{L}}
+\newcommand{\sumin}{\sum\limits_{i=1}^n} % generic sumation 1 to n
+\newcommand{\sumti}{\sum\limits_{t=0}^\infty} % sum - infinite horizon
+\newcommand{\pin}{\Pi_{i=1}^n}
+\newcommand{\argmax}{\text{arg}\max}
+\newcommand{\fix} [1] {\textbf{\textcolor{blue}{#1}}} % use this to more clearly note in problem set pdf where things need to be changed. 
+% end preamble
+
+\renewcommand*{\thesection}{\arabic{section}}
+\newcommand\numberthis{\addtocounter{equation}{1}\tag{\theequation}} % for equation numbering within align*
+
+\begin{document}
+	
+	\maketitle
+	
+	\blfootnote{I worked on this Problem set with Sarah Bass, Michael Nattinger, Alex von Hafften, Hanna Han, and Danny Edgel.} 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% commands specific to this problem set % 
+\newcommand{\sumi}{\sum_{i=1}^{N_k}}
+\newcommand{\ik}{_{ik}}
+
+\section*{Oligopolistic competition (Atkeson and Burstein, AER 2008)}
+Consider a static model with a continuum of sectors $k\in[0,1]$ and $i= 1,...,N_k$ firms in sector $k$, each producing a unique variety of the good.  Households supply inelastically one unit of labor and have nested-CES preferences:
+\begin{align*}
+& C = \left( \int C_k^{\frac{\rho-1}{\rho}}dk\right)^{\frac{\rho}{\rho-1}},
+& C_k = \left( \sum_{i=1}^{N_k} C_{ik}^{\frac{\theta-1}{\theta}}\right)^{\frac{\theta}{\theta-1}},
+& \theta > \rho \ge 1.&
+\end{align*}
+For firm i in sector k: $ Y_{ik}= A_{ik}L_{ik}$ 
+
+
+
+%%% 1 %%% 
+\section{Solve household cost minimization problem for the optimal demand $C_{ik}$, the sectoral price index $P_k$, and the aggregate price index $P$ as functions of producers’ prices.}
+\begin{align*}
+& \min_{C_{ik}} \int \sumi P\ik C\ik dk \\
+& s.t.\;\;\; 
+C = \left( \int C_k^{\frac{\rho-1}{\rho}}dk\right)^{\frac{\rho}{\rho-1}},\;\;\; 
+& C_k = \left( \sum_{i=1}^{N_k} C_{ik}^{\frac{\theta-1}{\theta}}\right)^{\frac{\theta}{\theta-1}}
+\end{align*}
+
+Construct a lagrangian:
+
+\begin{align*}
+\lag & = \int \sumi P\ik C\ik dk 
+         - P \left[\left( C_k^\frac{{\rho-1}{\rho}} dk
+         \right)
+         ^{\frac{\rho}{\rho-1}} - C \right]
+         + \int P_k \left[C_k - \left(\sumi C\ik 
+         ^{\frac{\theta-1}{\theta}}
+         \right)^{\frac{\theta
+         }{\theta-1}}\right] dk
+\end{align*}
+
+
+\pagebreak
+FOC $[C\ik]$:
+
+\begin{align*}
+P\ik & = P_k \left(\sumi C\ik^{\frac{\theta-1}{\theta}} \right)^{\frac{1}{\theta-1}} C\ik^{\frac{-1}{\theta}}
+\\
+\Rightarrow
+C\ik & = \left( \frac{P_k}{P\ik}\right)^\theta C_k
+      \numberthis \label{FOCCik}
+\end{align*}
+
+
+FOC $[C_k]$:
+
+\begin{align*}
+P_k & = P \left(C_k^{\frac{\rho-1}{\rho}}dk \right)^{\frac{1}{\rho-1}} C_k^{\frac{-1}{\rho}} 
+\\
+\Rightarrow
+C_k & = \left( \frac{P}{P_k}\right)^\rho C 
+    \numberthis \label{FOCCk} 
+\end{align*}
+
+
+We can plug these first order conditions into the original given definitions for $C$ and $C_k$:
+
+\begin{align*}
+C_k & = \left( \sum_{i=1}^{N_k} C_{ik}^{\frac{\theta-1}{\theta}}\right)^{\frac{\theta}{\theta-1}}
+\\
+& = \fix{XXXXX}
+\\
+P_k & = \left(\sumi P\ik ^{1-\theta}\right)
+        ^{\frac{1}{\theta-1}}
+        \tag{*} 
+        % sectoral price index as a function of 
+        % producer's prices, Pik. 
+\end{align*}
+
+
+\begin{align*}
+C = \left( \int C_k^{\frac{\rho-1}{\rho}}dk\right)^{\frac{\rho}{\rho-1}}
+& = \left[ \int \left( \left[ 
+    \frac{P}{P_k}\right]^\rho C \right)^{\frac{\rho-1}
+    {\rho}} dk \right]^{\frac{\rho}{\rho-1}}
+\\
+& = \left[C^{\frac{\rho-1}{\rho}} P^{\rho-1} 
+    \left( \int P_k^{1-\rho} dk \right)
+    \right]^{\frac{\rho}{\rho-1}} 
+\\
+P & = \left(\int P_k^{1-\rho}dk\right)^{\frac{1}{\rho-1}} 
+        \tag{**} 
+        % aggregate price index
+\end{align*}
+
+This gives us the sectoral price index and the aggregate price index as a function of producer's prices $P\ik$.
+    \footnote{Note that we can plug (*) into (**) to 
+    get 
+    \[ P = \left(\int\left(\sumi P\ik ^{1-\theta}
+    \right)^{\frac{1-\rho}{\theta-1}} 
+    dk\right)^{\frac{1}{\rho-1}}
+    \] 
+    \fix{check this}}
+\\
+\\    
+Now to get consumption as a function of producers' prices, we use first order conditions \eqref{FOCCik} and \eqref{FOCCk}
+
+
+
+
+\end{document}
