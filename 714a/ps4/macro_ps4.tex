@@ -117,7 +117,7 @@ Construct a lagrangian:
 
 \begin{align*}
 \lag & = \int \sumi P\ik C\ik dk 
-         - P \left[\left( C_k^\frac{{\rho-1}{\rho}} dk
+         - P \left[\left( C_k^{\frac{\rho-1}{\rho}} dk
          \right)
          ^{\frac{\rho}{\rho-1}} - C \right]
          + \int P_k \left[C_k - \left(\sumi C\ik 
@@ -153,12 +153,11 @@ C_k & = \left( \frac{P}{P_k}\right)^\rho C
 We can plug these first order conditions into the original given definitions for $C$ and $C_k$:
 
 \begin{align*}
-C_k & = \left( \sum_{i=1}^{N_k} C_{ik}^{\frac{\theta-1}{\theta}}\right)^{\frac{\theta}{\theta-1}}
+C_k = \left( \sum_{i=1}^{N_k} C_{ik}^{\frac{\theta-1}{\theta}}\right)^{\frac{\theta}{\theta-1}}
+& = \left( \sum_{i=1}^{N_k} \left[ \left(\frac{P_k}{P}\right)^{-\theta} C_k\right]^{\frac{\theta-1}{\theta}}\right)^{\frac{\theta}{\theta-1}}
 \\
-& = \fix{XXXXX}
-\\
-P_k & = \left(\sumi P\ik ^{1-\theta}\right)
-        ^{\frac{1}{\theta-1}}
+\Rightarrow P_k & = \left(\sumi P\ik ^{1-\theta}\right)
+        ^{\frac{1}{1-\theta}}
         \tag{*} 
         % sectoral price index as a function of 
         % producer's prices, Pik. 
@@ -175,7 +174,7 @@ C = \left( \int C_k^{\frac{\rho-1}{\rho}}dk\right)^{\frac{\rho}{\rho-1}}
     \left( \int P_k^{1-\rho} dk \right)
     \right]^{\frac{\rho}{\rho-1}} 
 \\
-P & = \left(\int P_k^{1-\rho}dk\right)^{\frac{1}{\rho-1}} 
+P & = \left(\int P_k^{1-\rho}dk\right)^{\frac{1}{1-\rho}} 
         \tag{**} 
         % aggregate price index
 \end{align*}
@@ -184,13 +183,74 @@ This gives us the sectoral price index and the aggregate price index as a functi
     \footnote{Note that we can plug (*) into (**) to 
     get 
     \[ P = \left(\int\left(\sumi P\ik ^{1-\theta}
-    \right)^{\frac{1-\rho}{\theta-1}} 
-    dk\right)^{\frac{1}{\rho-1}}
-    \] 
-    \fix{check this}}
+    \right)^{\frac{1-\rho}{1-\theta}} 
+    dk\right)^{\frac{1}{1-\rho}}
+    \] }
+    \\
 \\
 \\    
-Now to get consumption as a function of producers' prices, we use first order conditions \eqref{FOCCik} and \eqref{FOCCk}
+Now to get consumption as a function of producers' prices, we use first order conditions \eqref{FOCCik} and \eqref{FOCCk}:
+\[ C\ik = P\ik^{-\theta} \left( \sumi P\ik^{1-\theta}\right) ^{\frac{\theta-\rho}{1-\theta}} P^\rho C \numberthis\]
+
+
+\section{Demand elasticity and the optimal price using Bertrand}
+
+I have attached in a separate pdf my handwritten algebra for this problem. Define $s\ik = \left( \frac{P\ik}{P_k}\right)^{1-\theta}$.  We get:
+
+\begin{align*}
+P_{ik}[(1-\theta) +  s_{ik} (\theta - \rho)]&= \frac{W}{A_{ik}}\left[ (-\theta) + s_{ik} (\theta - \rho) \right]\\
+\Rightarrow P_{ik} &= \frac{W}{A_{ik}}\left[ 1 - \frac{1}{(1-\theta) +  s_{ik} (\theta - \rho)} \right]
+\end{align*}
+
+Now, to calculate the elasticity, $\eta = \pdv {C\ik}{P\ik} \cdot \frac{P\ik}{C\ik}$:
+
+\begin{align*}
+\pdv {C\ik}{P\ik} 
+& = P^\rho C [(-\theta)P\ik 
+^{-\theta-1} P_k^{\theta-\rho} + P\ik^{-\theta} (\theta-\rho) P_k^{2\theta-\rho-1} P\ik^{-\theta}
+\\
+\frac{P\ik}{C\ik} & = P\ik P_k^{\rho-\theta} 
+\left(\frac{P\ik^\theta}{P^\rho}\right) C^{-1} 
+\\
+\Rightarrow \eta & = 
+(\theta - \rho)s_{ik} - \theta
+\end{align*}
+
+
+
+\section{Prove that other things equal, firms with higher $A\ik$ set higher markups.}
+Recall that the optimal price = optimal markup * marginal costs. In this model, 
+\[P\ik =\mu\ik \left(\frac{W}{A\ik}\right)\]
+for markup $\mu\ik$. Then also  
+
+\begin{align*}
+\mu\ik & = P\ik \left(\frac{A\ik}{W}\right)
+\\
+& = \left( 1 - \frac{1}{(1-\theta)+s\ik (\theta-\rho)}\right)
+\end{align*}
+\[
+s\ik = 
+\left( \frac{C_k}{A\ik L\ik}\right)
+^{\frac{1-\theta}{\theta}}
+\]
+
+So when $A\ik$ increases, $s\ik$ also increases\footnote{Because $\theta >1$. }. 
+Then if $s\ik$ is increasing, it is straightforward to see that $\mu\ik$ is also increasing. 
+
+\section{Solve the model numerically}
+Note that to solve the model I had to implement a tuning parameter of 0.6\footnote{At the suggestion of Michael Nattinger, thanks!}, otherwise $\rho$ poses an issue.  My matlab code is attached. 
+
+
+\section{Compute the aggregate output C of the economy and compare it to the first-best value.}
+Computing on matlab, I got the following results:
+
+\begin{align*}
+C & = 5.7301 
+\\
+C_{SPP} & = 7.238
+\end{align*}
+
+The competitive equilibrium does not achieve the first best outcome because firms have some degree of market power within their sectors. 
 
 
 
